@@ -1,0 +1,9 @@
+Vista\Inicial.class
+Vista\Login.class
+Controlador\Control.class
+Modelo\GestorArchivos.class
+Modelo\Usuario.class
+com\mycompany\comedor\Comedor.class
+Modelo\Admin.class
+Vista\Registro.class
+Modelo\Comensal.class
