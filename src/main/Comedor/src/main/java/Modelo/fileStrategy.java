@@ -1,6 +1,5 @@
 package Modelo;
 
-import Modelo.Usuario.*;
 import java.io.*;
 
 public class fileStrategy implements AStrategy {
@@ -14,14 +13,14 @@ public class fileStrategy implements AStrategy {
             while ((linea = reader.readLine()) != null) {
                 String[] datos = linea.split(",");
                 if (datos.length == 5 && datos[0].equals(cedula) && datos[1].equals(password)) {
-                    if(datos[4].equals("ADMIN")){
+                    if (datos[4].equals("ADMIN")) {
                         Usuario a = new Administrador(datos[3], datos[2], datos[0], datos[1]);
                         return a;
-                    } else if(datos[4].equals("COMENSAL")){
-                        Usuario a= new Comensal(datos[3], datos[2], datos[0], datos[1]);
+                    } else if (datos[4].equals("COMENSAL")) {
+                        Usuario a = new Comensal(datos[3], datos[2], datos[0], datos[1]);
                         return a;
-                    }    
-                }else if(datos[0].equals(cedula) && !datos[1].equals(password)){
+                    }
+                } else if (datos[0].equals(cedula) && !datos[1].equals(password)) {
                     return null;
                 }
             }
@@ -33,20 +32,23 @@ public class fileStrategy implements AStrategy {
 
     @Override
     public boolean registrarUsuario(Usuario a, String tipo) {
-        if (usuarioYaExiste(a.cedula)) return false;
-        if(tipo.equals("ADMIN")){
-            if (!esCedulaAutorizada(a.getCedula()) || usuarioYaExiste(a.getCedula())) {
+        if (usuarioYaExiste(a.cedula))
             return false;
+        if (tipo.equals("ADMIN")) {
+            if (!esCedulaAutorizada(a.getCedula()) || usuarioYaExiste(a.getCedula())) {
+                return false;
+            }
         }
-        }
-        
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USUARIOS_DB, true))) {
-                switch (a.getTipo()) {
-                case "ADMIN" : 
-                    writer.write(a.cedula+","+a.contrasena+","+a.nombre+","+((Administrador)a).getCargo()+","+"ADMIN");
+            switch (a.getTipo()) {
+                case "ADMIN":
+                    writer.write(a.cedula + "," + a.contrasena + "," + a.nombre + "," + ((Administrador) a).getCargo()
+                            + "," + "ADMIN");
                     break;
-                case "COMENSAL" :
-                    writer.write(a.cedula+","+a.contrasena+","+a.nombre+","+((Comensal)a).getFacultad()+","+"COMENSAL");
+                case "COMENSAL":
+                    writer.write(a.cedula + "," + a.contrasena + "," + a.nombre + "," + ((Comensal) a).getFacultad()
+                            + "," + "COMENSAL");
                     break;
             }
             writer.write("\n");
@@ -57,7 +59,7 @@ public class fileStrategy implements AStrategy {
         }
     }
 
-    private boolean usuarioYaExiste(String cedula) {
+    public boolean usuarioYaExiste(String cedula) {
         try (BufferedReader reader = new BufferedReader(new FileReader(USUARIOS_DB))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -73,7 +75,7 @@ public class fileStrategy implements AStrategy {
         return false;
     }
 
-    private boolean esCedulaAutorizada(String cedula) {
+    public boolean esCedulaAutorizada(String cedula) {
         try (BufferedReader reader = new BufferedReader(new FileReader(CEDULAS_AUTORIZADAS_DB))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
@@ -84,7 +86,7 @@ public class fileStrategy implements AStrategy {
         } catch (IOException e) {
             // Si el archivo no existe o hay un error, se asume que no está autorizado.
             System.err.println("Advertencia: No se encontró el archivo cedulas_autorizadas.txt");
-            return false; 
+            return false;
         }
         return false;
     }

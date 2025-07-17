@@ -6,6 +6,7 @@ import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
+        // Se ejecuta en el Hilo de Despacho de Eventos de Swing para seguridad
         SwingUtilities.invokeLater(() -> {
             // 1. Crear el Modelo
 

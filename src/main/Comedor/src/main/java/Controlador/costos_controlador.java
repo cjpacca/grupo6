@@ -1,6 +1,7 @@
 package Controlador;
-import Modelo.costos_modelo;
-import Vista.costos_vista;
+
+import Modelo.*;
+import Vista.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,7 +33,8 @@ public class costos_controlador {
 
             JOptionPane.showMessageDialog(view, "Costos guardados correctamente.");
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(view, "Por favor ingrese valores numéricos válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view, "Por favor ingrese valores numéricos válidos.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 }
