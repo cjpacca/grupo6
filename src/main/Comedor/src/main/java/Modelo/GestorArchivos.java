@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.io.*;
+import javax.swing.JOptionPane;
 
 public class GestorArchivos {
 
@@ -61,6 +62,7 @@ public class GestorArchivos {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USUARIOS_DB, true))) {
             // Formato: cedula,password,nombre,universidad,TIPO
             writer.write(a.getCedula()+","+a.getContrasena()+","+a.getNombre()+","+a.getFacultad()+",COMENSAL");
+            writer.write("\n");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -78,7 +80,7 @@ public class GestorArchivos {
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USUARIOS_DB, true))) {
             // Formato: cedula,password,nombre,cargo,TIPO
-            writer.write(a.getCedula()+","+a.getContrasena()+","+a.getNombre()+","+a.getCargo()+",ADMIN");
+            writer.write(a.getCedula()+","+a.getContrasena()+","+a.getNombre()+","+a.getCargo()+",ADMIN\n");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -103,6 +105,8 @@ public class GestorArchivos {
                         Usuario a= new Comensal("COMENSAL", datos[3], datos[2], datos[0], datos[1]);
                         return a;
                     }    
+                }else if(datos[0].equals(cedula) && !datos[1].equals(password)){
+                    return null;
                 }
             }
         } catch (IOException e) {

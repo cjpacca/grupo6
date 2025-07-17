@@ -2,9 +2,8 @@ package Controlador;
 
 import Modelo.GestorArchivos;
 import Vista.*;
-import Modelo.Administrador;
-import Modelo.Comensal;
-import Modelo.Usuario;
+import Modelo.*;
+import java.awt.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -14,9 +13,13 @@ public class Control implements ActionListener {
 
     private final GestorArchivos modelo;
     private final Inicial vistaPrincipal;
+    private vistaComensal comen;
     
     private Login vistaLogin;
     private Registro vistaRegistro;
+    Usuario a;
+    Administrador b;
+    Comensal c;
     
     public Control(GestorArchivos modelo, Inicial vistaPrincipal) {
         this.modelo = modelo;
@@ -78,14 +81,13 @@ public class Control implements ActionListener {
             JOptionPane.showMessageDialog(vistaLogin, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
-        Usuario a = modelo.validarLogin(cedula, password);
+        a = modelo.validarLogin(cedula, password);
         int tipo=0;
         if( a instanceof Administrador){
-            Administrador b= (Administrador)a;
+            b= (Administrador)a;
             tipo=1;
         } else if(a instanceof Comensal){
-            Comensal c= (Comensal)a;
+            c= (Comensal)a;
             tipo=2;
         }else{
             tipo=3;
@@ -93,12 +95,21 @@ public class Control implements ActionListener {
             
         switch(tipo){
             case 1:
-                System.out.println("HOLA ADMIN");
+                costos_modelo model = new costos_modelo();
+                costos_vista view = new costos_vista();
+                costos_controlador controller = new costos_controlador(model, view);
+                view.setVisible(true);
+                vistaLogin.dispose();
                 break;
             case 2:
-                System.out.println("HOLA COMENSAL");
+                vistaComensal comen = new vistaComensal(c);
+                comen.setVisible(true);
+                vistaLogin.dispose();
                 break;
             case 3:
+                JOptionPane.showMessageDialog(vistaLogin, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                vistaLogin.dispose();
+                vistaPrincipal.setVisible(true);
                 break;
         }
     }
@@ -138,7 +149,8 @@ public class Control implements ActionListener {
         }
 
         if (exito) {
-            JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso!");
+            JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso!, inicie sesión");
+            vistaPrincipal.setVisible(true);
             vistaRegistro.dispose();
         }
     }
