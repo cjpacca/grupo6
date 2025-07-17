@@ -39,7 +39,7 @@ public class Registro extends JFrame {
         panel.add(txtCampoExtra);
         
         btnRegistrar = new JButton("Registrar");
-        panel.add(new JLabel()); // Placeholder
+        panel.add(new JLabel());
         panel.add(btnRegistrar);
 
         this.add(panel);

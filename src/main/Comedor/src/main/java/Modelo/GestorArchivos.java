@@ -53,14 +53,14 @@ public class GestorArchivos {
     /**
      * Registra un nuevo comensal en el archivo unificado.
      */
-    public boolean registrarComensal(String cedula, String password, String nombre, String facultad) {
-        if (usuarioYaExiste(cedula)) {
+    public boolean registrarComensal(Comensal a) {
+        if (usuarioYaExiste(a.getCedula())) {
             return false;
         }
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USUARIOS_DB, true))) {
             // Formato: cedula,password,nombre,universidad,TIPO
-            writer.write(cedula+","+password+","+nombre+","+facultad+",COMENSAL");
+            writer.write(a.getCedula()+","+a.getContrasena()+","+a.getNombre()+","+a.getFacultad()+",COMENSAL");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -71,14 +71,14 @@ public class GestorArchivos {
     /**
      * Registra un nuevo administrador, validando primero si la cédula está autorizada.
      */
-    public boolean registrarAdmin(String cedula, String password, String nombre, String cargo) {
-        if (!esCedulaAutorizada(cedula) || usuarioYaExiste(cedula)) {
+    public boolean registrarAdmin(Administrador a) {
+        if (!esCedulaAutorizada(a.getCedula()) || usuarioYaExiste(a.getCedula())) {
             return false;
         }
         
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USUARIOS_DB, true))) {
             // Formato: cedula,password,nombre,cargo,TIPO
-            writer.write(cedula+","+password+","+nombre+","+cargo+",ADMIN");
+            writer.write(a.getCedula()+","+a.getContrasena()+","+a.getNombre()+","+a.getCargo()+",ADMIN");
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,18 +90,24 @@ public class GestorArchivos {
      * Valida las credenciales en el archivo unificado.
      * @return El tipo de usuario ("ADMIN", "COMENSAL") o "INVALIDO" si falla el login.
      */
-    public String validarLogin(String cedula, String password) {
+    public Usuario validarLogin(String cedula, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader(USUARIOS_DB))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] datos = linea.split(",");
                 if (datos.length == 5 && datos[0].equals(cedula) && datos[1].equals(password)) {
-                    return datos[4].trim(); // Devuelve el tipo de usuario (ADMIN o COMENSAL)
+                    if(datos[4].equals("ADMIN")){
+                        Usuario a = new Administrador("ADMIN", datos[3], datos[2], datos[0], datos[1]);
+                        return a;
+                    } else if(datos[4].equals("COMENSAL")){
+                        Usuario a= new Comensal("COMENSAL", datos[3], datos[2], datos[0], datos[1]);
+                        return a;
+                    }    
                 }
             }
         } catch (IOException e) {
-            return "INVALIDO";
+            return null;
         }
-        return "INVALIDO"; // No se encontró el usuario o la contraseña no coincide
+        return null; // No se encontró el usuario o la contraseña no coincide
     }
 }

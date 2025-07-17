@@ -9,7 +9,7 @@ public class Inicial extends JFrame {
 
     public Inicial() {
         setTitle("Sistema de Comedor Universitario");
-        setSize(700, 400); // Ahora este tamaño será respetado
+        setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -23,8 +23,8 @@ public class Inicial extends JFrame {
         panelIzquierdo.setBackground(Color.DARK_GRAY);
 
         ImageIcon logoOriginal = new ImageIcon("logoUCV.jpg");
-        Image logoImage = logoOriginal.getImage(); // Extraer la imagen
-        Image logo = logoImage.getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+        Image logoImage = logoOriginal.getImage();
+        Image logo = logoImage.getScaledInstance(150, 140, Image.SCALE_SMOOTH);
         ImageIcon logoFinal = new ImageIcon(logo);
         JLabel LogoU = new JLabel(logoFinal);
         LogoU.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -48,21 +48,20 @@ public class Inicial extends JFrame {
         btnRegistroComensal = new JButton("Registrarme como Comensal");
         btnRegistroAdmin = new JButton("Registrarme como Administrador");
 
-        Font botonFont = new Font("Arial", Font.BOLD, 18);
+        Font botonFont = new Font("Arial", Font.BOLD, 20);
 
         for (JButton btn : new JButton[]{btnLogin, btnRegistroComensal, btnRegistroAdmin}) {
             btn.setFont(botonFont);
-            btn.setBackground(Color.DARK_GRAY);
-            btn.setForeground(Color.white);
-            btn.setMaximumSize(new Dimension(400, 50));
+                btn.setBackground(Color.white);
+            btn.setForeground(Color.DARK_GRAY);
+            btn.setMaximumSize(new Dimension(420, 200));
             btn.setAlignmentX(Component.CENTER_ALIGNMENT);
-            btn.setBorder(BorderFactory.createLineBorder(Color.RED, 3));
-            //btn.setBorder(BorderFactory.createEmptyBorder(10, 25, 10, 25));
+            btn.setBorder(BorderFactory.createLineBorder(Color.MAGENTA, 2));
             panelDerecho.add(btn);
-            panelDerecho.add(Box.createRigidArea(new Dimension(0, 15)));
+            panelDerecho.add(Box.createRigidArea(new Dimension(0, 30)));
         }
-        panelDerecho.add(Box.createVerticalGlue(), 0); // Al inicio del panel
-        panelDerecho.add(Box.createVerticalGlue());    // Al final del panel
+        panelDerecho.add(Box.createVerticalGlue(), 0);
+        panelDerecho.add(Box.createVerticalGlue());
         panelPrincipal.add(panelIzquierdo, BorderLayout.WEST);
         panelPrincipal.add(panelDerecho, BorderLayout.CENTER);
         this.add(panelPrincipal);
