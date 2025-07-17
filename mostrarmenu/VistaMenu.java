@@ -21,8 +21,9 @@ public class VistaMenu extends JFrame {
     private final String[] columnas = { "Dia De La Semana", "Plato", "Precio" };
 
     // --- Colores y Estilos ---
-    private final Color colorFondo = new Color(245, 245, 245);
-    private final Border bordeConPadding = new EmptyBorder(10, 10, 10, 10);
+    private final Color colorFondo = new Color(230, 230, 230);
+    private final Color colorMorado = new Color(128, 0, 128);
+    private final Border bordeConPadding = new EmptyBorder(2, 2, 10, 10);
 
     // Datos de ejemplo para los menús
     private final Object[][] menuManana1 = {
@@ -57,7 +58,7 @@ public class VistaMenu extends JFrame {
             {"Viernes","Hamburguesa con papas fritas", "$9"},
     };
 
-    public VistaMenu() {
+    public VistaMenu(float saldo) {
         // --- Configuración de la Ventana Principal ---
         setTitle("Menú Estudiantil");
         setSize(650, 420);
@@ -152,8 +153,48 @@ public class VistaMenu extends JFrame {
         radioMenu1.addActionListener(listenerMenu);
         radioMenu2.addActionListener(listenerMenu);
 
+        // --- Panel Izquierdo para el Saldo ---
+        JPanel panelSaldo = new JPanel();
+        panelSaldo.setBackground(colorFondo);
+        panelSaldo.setLayout(new BoxLayout(panelSaldo, BoxLayout.Y_AXIS));
+        panelSaldo.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JLabel labelSaldoTitulo = new JLabel("Saldo Actual:");
+        labelSaldoTitulo.setFont(new Font("SansSerif", Font.BOLD, 14));
+        JLabel labelSaldoValor = new JLabel(String.format("$%.2f", saldo));
+        labelSaldoValor.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        
+        panelSaldo.add(labelSaldoTitulo);
+        panelSaldo.add(Box.createRigidArea(new Dimension(0, 5))); // Espacio
+        panelSaldo.add(labelSaldoValor);
+
+        // --- Panel Superior General ---
+        JPanel panelSuperiorGeneral = new JPanel(new BorderLayout());
+        panelSuperiorGeneral.setBackground(colorFondo);
+        panelSuperiorGeneral.add(panelSaldo, BorderLayout.WEST);
+        panelSuperiorGeneral.add(panelControles, BorderLayout.CENTER);
+
+        // --- Botón de Volver ---
+        JButton botonVolver = new JButton("←");
+        botonVolver.setFont(new Font("SansSerif", Font.BOLD, 20));
+        botonVolver.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        botonVolver.setContentAreaFilled(false);
+        botonVolver.setFocusPainted(false);
+        botonVolver.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        botonVolver.setToolTipText("volver");
+
+        JPanel panelBotonVolver = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelBotonVolver.setBackground(colorFondo);
+        panelBotonVolver.add(botonVolver);
+
+        // --- Panel Norte Completo (Contenedor para botón y paneles superiores) ---
+        JPanel panelNorteCompleto = new JPanel(new BorderLayout());
+        panelNorteCompleto.setBackground(colorFondo);
+        panelNorteCompleto.add(panelBotonVolver, BorderLayout.NORTH);
+        panelNorteCompleto.add(panelSuperiorGeneral, BorderLayout.CENTER);
+
         // --- Añadir los componentes a la ventana ---
-        add(panelControles, BorderLayout.NORTH);
+        add(panelNorteCompleto, BorderLayout.NORTH);
         add(panelTabla, BorderLayout.CENTER);
         ((JPanel) getContentPane()).setBorder(bordeConPadding);
     }
@@ -202,7 +243,7 @@ public class VistaMenu extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new VistaMenu().setVisible(true);
+                new VistaMenu(0.0f).setVisible(true); // Saldo inicial en 0.0
             }
         });
     }
