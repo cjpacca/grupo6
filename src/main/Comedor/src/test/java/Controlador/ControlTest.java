@@ -15,12 +15,12 @@ class ControlTest {
     private GestorArchivos modelo;
     private Inicial vistaPrincipal;
     private Control control;
-    private FileStrategy file;
+    private fileStrategy file;
     private Registro vistaRegistro;
 
     @BeforeEach
     void setUp() {
-        file = new FileStrategy();
+        file = new fileStrategy();
         vistaRegistro = new Registro(false);
         vistaPrincipal = new Inicial();
         modelo = new GestorArchivos();

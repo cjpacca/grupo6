@@ -94,12 +94,12 @@ public class Control implements ActionListener {
         switch (tipo) {
             case 1:
 
-                Costos_vista view = new Costos_vista();
+                costos_vista view = new costos_vista();
                 view.setVisible(true);
                 vistaLogin.dispose();
                 return true;
             case 2:
-                VistaComensal comen = new VistaComensal(c);
+                vistaComensal comen = new vistaComensal(c);
                 comen.setVisible(true);
                 vistaLogin.dispose();
                 return true;

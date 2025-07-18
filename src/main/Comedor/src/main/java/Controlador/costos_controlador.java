@@ -7,11 +7,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Costos_controlador {
-    private Costos_modelo model;
-    private Costos_vista view;
+public class costos_controlador {
+    private costos_modelo model;
+    private costos_vista view;
 
-    public Costos_controlador(Costos_modelo model, Costos_vista view) {
+    public costos_controlador(costos_modelo model, costos_vista view) {
         this.model = model;
         this.view = view;
 

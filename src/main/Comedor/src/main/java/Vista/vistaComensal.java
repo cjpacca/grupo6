@@ -6,9 +6,9 @@ import javax.swing.border.Border; // Import necesario para el borde
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class VistaComensal extends JFrame {
+public class vistaComensal extends JFrame {
 
-    public VistaComensal(Comensal a) {
+    public vistaComensal(Comensal a) {
         // --- Configuración de la ventana ---
         setTitle("Menú Principal del Restaurante");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,7 +40,7 @@ public class VistaComensal extends JFrame {
         add(panelBotones);
 
         btnVerMenu.addActionListener(e -> {
-            VistaMenu panelContenidoMenu = new VistaMenu(a);
+            vistaMenu panelContenidoMenu = new vistaMenu(a);
             panelContenidoMenu.setVisible(true);
             setVisible(false);
         });

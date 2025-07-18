@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 
-public class Costos_vista extends JFrame {
+public class costos_vista extends JFrame {
     public JTextField txtNombreMenu;
     public JTextField txtCostosFijos;
     public JTextField txtCostosVariables;
     public JButton btnGuardar;
 
-    public Costos_vista() {
+    public costos_vista() {
         setTitle("Ingreso de Costos");
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

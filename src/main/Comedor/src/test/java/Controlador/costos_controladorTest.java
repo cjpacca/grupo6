@@ -7,15 +7,15 @@ import Vista.*;
 
 class costos_controladorTest {
 
-    private Costos_modelo model;
-    private Costos_vista view;
-    private Costos_controlador controlador;
+    private costos_modelo model;
+    private costos_vista view;
+    private costos_controlador controlador;
 
     @BeforeEach
     void setUp() {
-        model = new Costos_modelo();
-        view = new Costos_vista();
-        controlador = new Costos_controlador(model, view);
+        model = new costos_modelo();
+        view = new costos_vista();
+        controlador = new costos_controlador(model, view);
     }
 
     @Test

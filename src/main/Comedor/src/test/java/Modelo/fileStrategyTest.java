@@ -4,13 +4,13 @@ import org.junit.jupiter.api.*;
 import static org.junit.jupiter.api.Assertions.*;
 import java.io.*;
 
-class FileStrategyTest {
+class fileStrategyTest {
 
-    private FileStrategy strategy;
+    private fileStrategy strategy;
 
     @BeforeEach
     void setUp() {
-        strategy = new FileStrategy();
+        strategy = new fileStrategy();
     }
 
     @Test

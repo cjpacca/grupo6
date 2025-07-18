@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class VistaMenu extends JFrame {
+public class vistaMenu extends JFrame {
 
     private JRadioButton radioManana, radioTarde;
     private JRadioButton radioMenu1, radioMenu2;
@@ -59,7 +59,7 @@ public class VistaMenu extends JFrame {
             {"Viernes","Hamburguesa con papas fritas", "$9"},
     };
 
-    public VistaMenu(Comensal a) {
+    public vistaMenu(Comensal a) {
 
         setTitle("Menú Estudiantil");
         setSize(650, 420);
@@ -189,7 +189,7 @@ public class VistaMenu extends JFrame {
             ventanaActual.dispose();
     
 
-            VistaComensal vista = new VistaComensal(a); 
+            vistaComensal vista = new vistaComensal(a); 
             vista.setVisible(true);
         });
 

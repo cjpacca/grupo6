@@ -2,7 +2,7 @@ package Modelo;
 
 import java.io.*;
 
-public class FileStrategy implements AStrategy {
+public class fileStrategy implements AStrategy {
     private static final String USUARIOS_DB = "usuarios.txt";
     private static final String CEDULAS_AUTORIZADAS_DB = "cedulas_autorizadas.txt";
 
