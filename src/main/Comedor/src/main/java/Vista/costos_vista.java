@@ -4,19 +4,18 @@ import javax.swing.*;
 import java.awt.Color;
 import java.awt.Font;
 
-public class costos_vista extends JFrame {
+public class Costos_vista extends JFrame {
     public JTextField txtNombreMenu;
     public JTextField txtCostosFijos;
     public JTextField txtCostosVariables;
     public JButton btnGuardar;
 
-    public costos_vista() {
+    public Costos_vista() {
         setTitle("Ingreso de Costos");
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        // Panel principal con layout null y color de fondo
         JPanel fondoPanel = new JPanel(null);
         fondoPanel.setBackground(Color.DARK_GRAY);
         fondoPanel.setBounds(0, 0, 700, 400);

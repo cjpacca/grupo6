@@ -2,7 +2,7 @@ package Modelo;
 
 import java.io.*;
 
-public class fileStrategy implements AStrategy {
+public class FileStrategy implements AStrategy {
     private static final String USUARIOS_DB = "usuarios.txt";
     private static final String CEDULAS_AUTORIZADAS_DB = "cedulas_autorizadas.txt";
 
@@ -76,18 +76,21 @@ public class fileStrategy implements AStrategy {
     }
 
     public boolean esCedulaAutorizada(String cedula) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(CEDULAS_AUTORIZADAS_DB))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                if (linea.trim().equals(cedula)) {
-                    return true;
-                }
-            }
-        } catch (IOException e) {
-            // Si el archivo no existe o hay un error, se asume que no está autorizado.
-            System.err.println("Advertencia: No se encontró el archivo cedulas_autorizadas.txt");
-            return false;
+        try {
+    File archivo = new File(CEDULAS_AUTORIZADAS_DB);
+    BufferedReader reader = new BufferedReader(new FileReader(archivo));
+    String linea;
+    while ((linea = reader.readLine()) != null) {
+        if (linea.trim().equals(cedula)) {
+            reader.close();
+            return true;
         }
+    }
+    reader.close();
+    } catch (IOException e) {
+        System.err.println("Advertencia: No se encontró el archivo cedulas_autorizadas.txt");
+        return false;
+    }
         return false;
     }
 }

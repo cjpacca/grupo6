@@ -7,11 +7,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class costos_controlador {
-    private costos_modelo model;
-    private costos_vista view;
+public class Costos_controlador {
+    private Costos_modelo model;
+    private Costos_vista view;
 
-    public costos_controlador(costos_modelo model, costos_vista view) {
+    public Costos_controlador(Costos_modelo model, Costos_vista view) {
         this.model = model;
         this.view = view;
 
@@ -23,7 +23,7 @@ public class costos_controlador {
         });
     }
 
-    private void guardarCostos() {
+    public boolean guardarCostos() {
         try {
             double costosFijos = Double.parseDouble(view.txtCostosFijos.getText());
             double costosVariables = Double.parseDouble(view.txtCostosVariables.getText());
@@ -32,9 +32,11 @@ public class costos_controlador {
             model.setCostosVariables(costosVariables);
 
             JOptionPane.showMessageDialog(view, "Costos guardados correctamente.");
+            return true;
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(view, "Por favor ingrese valores numéricos válidos.", "Error",
                     JOptionPane.ERROR_MESSAGE);
+            return false;
         }
     }
 }

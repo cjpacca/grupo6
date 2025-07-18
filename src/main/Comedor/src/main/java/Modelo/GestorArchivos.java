@@ -4,7 +4,7 @@ public class GestorArchivos {
     private AStrategy authStrategy;
 
     public GestorArchivos() {
-        this.authStrategy = new fileStrategy(); // Inyección de dependencia
+        this.authStrategy = new FileStrategy(); // Inyección de dependencia
     }
 
     // Métodos delegados a la estrategia

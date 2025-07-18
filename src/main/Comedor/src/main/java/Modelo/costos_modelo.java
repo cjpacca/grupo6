@@ -1,6 +1,6 @@
 package Modelo;
 
-public class costos_modelo {
+public class Costos_modelo {
     private double costosFijos;
     private double costosVariables;
 
