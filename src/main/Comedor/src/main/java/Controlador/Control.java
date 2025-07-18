@@ -10,10 +10,10 @@ import java.awt.event.ActionListener;
 public class Control implements ActionListener {
 
     private final GestorArchivos modelo;
-    private final Inicial vistaPrincipal;
+    public final Inicial vistaPrincipal;
 
-    private Login vistaLogin;
-    private Registro vistaRegistro;
+    public Login vistaLogin;
+    public Registro vistaRegistro;
     Usuario a;
     Administrador b;
     Comensal c;
@@ -70,14 +70,14 @@ public class Control implements ActionListener {
         vistaRegistro.setVisible(true);
     }
 
-    public void procesarLogin() {
+    public boolean procesarLogin() {
         String cedula = vistaLogin.txtCedula.getText();
         String password = new String(vistaLogin.txtPassword.getPassword());
 
         if (cedula.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(vistaLogin, "Todos los campos son obligatorios.", "Error",
                     JOptionPane.ERROR_MESSAGE);
-            return;
+            return false;
         }
         a = modelo.validarLogin(cedula, password);
         int tipo = 0;
@@ -97,21 +97,23 @@ public class Control implements ActionListener {
                 costos_vista view = new costos_vista();
                 view.setVisible(true);
                 vistaLogin.dispose();
-                break;
+                return true;
             case 2:
                 vistaComensal comen = new vistaComensal(c);
                 comen.setVisible(true);
                 vistaLogin.dispose();
-                break;
+                return true;
+                
             case 3:
                 JOptionPane.showMessageDialog(vistaLogin, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                 vistaLogin.dispose();
                 vistaPrincipal.setVisible(true);
-                break;
+                return false;
         }
+        return false;
     }
 
-    public void procesarRegistro() {
+    public boolean procesarRegistro() {
         // Determinamos si es registro de admin por el título de la ventana
         boolean esAdmin = vistaRegistro.getTitle().contains("Administrador");
         Administrador a1 = null;
@@ -123,7 +125,7 @@ public class Control implements ActionListener {
                     || a1.getCargo().isEmpty()) {
                 JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error",
                         JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
         } else {
             c1 = new Comensal(vistaRegistro.txtNombre.getText(), vistaRegistro.txtCedula.getText(),
@@ -132,7 +134,7 @@ public class Control implements ActionListener {
                     || c1.getFacultad().isEmpty()) {
                 JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error",
                         JOptionPane.ERROR_MESSAGE);
-                return;
+                return false;
             }
         }
 
@@ -143,6 +145,7 @@ public class Control implements ActionListener {
                 JOptionPane.showMessageDialog(vistaRegistro, "Error: Cédula no autorizada o ya registrada.",
                         "Error de Registro", JOptionPane.ERROR_MESSAGE);
                 vistaPrincipal.setVisible(true);
+                return false;
             }
         } else {
             exito = modelo.registrarUsuario(c1, "COMENSAL");
@@ -150,6 +153,7 @@ public class Control implements ActionListener {
                 JOptionPane.showMessageDialog(vistaRegistro, "Error: La cédula ya está registrada.",
                         "Error de Registro", JOptionPane.ERROR_MESSAGE);
                 vistaPrincipal.setVisible(true);
+                return false;
             }
         }
 
@@ -157,6 +161,8 @@ public class Control implements ActionListener {
             JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso!, inicie sesión");
             vistaPrincipal.setVisible(true);
             vistaRegistro.dispose();
+            return true;
         }
+        return false;
     }
 }

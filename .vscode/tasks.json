@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "shell",
+			"label": "mvn clean compile",
+			"command": "mvn clean compile",
+			"group": "build",
+			"problemMatcher": [
+				"$javac"
+			]
+		}
+	]
+}
