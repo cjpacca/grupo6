@@ -28,35 +28,35 @@ public class vistaMenu extends JFrame {
 
 
     private final Object[][] menuManana1 = {
-            {"Lunes","Sandwich y malta y/o jugo de naranja", "$5"},
-            {"Martes","Empanadas de pollo/carne y malta", "$2"},
-            {"Miercoles","Arepa con papelon con limon ", "$3"},
-            {"Jueves","Pan tostado con revoltillo, tocineta, aguacate y cafe", "$4"},
-            {"Viernes","Tortillas de espinaca y queso", "$4"},
+            {"Lunes","Sandwich y malta y/o jugo de naranja", "5 Bs"},
+            {"Martes","Empanadas de pollo/carne y malta", "2 Bs"},
+            {"Miercoles","Arepa con papelon con limon ", "3 Bs"},
+            {"Jueves","Pan tostado con revoltillo, tocineta, aguacate y cafe", "4 Bs"},
+            {"Viernes","Tortillas de espinaca y queso", "4 Bs"},
     };
 
     private final Object[][] menuManana2 = {
-            {"Lunes","Desayuno Americano", "$6"},
-            {"Martes","Omelette de Jamon y Queso", "$4"},
-            {"Miercoles","Panquecas con sirope", "$4"},
-            {"Jueves","Croissant con cafe", "$3"},
-            {"Viernes","Yogurt con granola y frutas", "$3"},
+            {"Lunes","Desayuno Americano", "6 Bs"},
+            {"Martes","Omelette de Jamon y Queso", "4 Bs"},
+            {"Miercoles","Panquecas con sirope", "4 Bs"},
+            {"Jueves","Croissant con cafe", "3 Bs"},
+            {"Viernes","Yogurt con granola y frutas", "3 Bs"},
     };
 
     private final Object[][] menuTarde1 = {
-            {"Lunes","Pollo a la plancha con arroz integral y ensalada mixta", "$7"},
-            {"Martes","Pescado al horno con pure y esparragos salteados", "$10"},
-            {"Miercoles","Sopa de verduras", "$1"},
-            {"Jueves","Ensalada" ,"$2"},
-            {"Viernes","Carne con ensalada", "$5 "},
+            {"Lunes","Pollo a la plancha con arroz integral y ensalada mixta", "7 Bs"},
+            {"Martes","Pescado al horno con pure y esparragos salteados", "10 Bs"},
+            {"Miercoles","Sopa de verduras", "1 Bs"},
+            {"Jueves","Ensalada" ,"2 Bs"},
+            {"Viernes","Carne con ensalada", "5 Bs"},
     };
 
     private final Object[][] menuTarde2 = {
-            {"Lunes","Pasta con salsa de tomate y albahaca", "$8"},
-            {"Martes","Lentejas con arroz", "$6"},
-            {"Miercoles","Crema de auyama", "$5"},
-            {"Jueves","Tacos de carne", "$7"},
-            {"Viernes","Hamburguesa con papas fritas", "$9"},
+            {"Lunes","Pasta con salsa de tomate y albahaca", "8 Bs"},
+            {"Martes","Lentejas con arroz", "6 Bs"},
+            {"Miercoles","Crema de auyama", "5 Bs"},
+            {"Jueves","Tacos de carne", "7 Bs"},
+            {"Viernes","Hamburguesa con papas fritas", "9 Bs"},
     };
 
     public vistaMenu(Comensal a) {
@@ -155,7 +155,7 @@ public class vistaMenu extends JFrame {
 
         JLabel labelSaldoTitulo = new JLabel("Saldo Actual:");
         labelSaldoTitulo.setFont(new Font("SansSerif", Font.BOLD, 14));
-        JLabel labelSaldoValor = new JLabel(String.format("$%.2f", a.getSaldo()));
+        JLabel labelSaldoValor = new JLabel(String.format("%.2f Bs", a.getSaldo()));
         labelSaldoValor.setFont(new Font("SansSerif", Font.PLAIN, 14));
         
         panelSaldo.add(labelSaldoTitulo);

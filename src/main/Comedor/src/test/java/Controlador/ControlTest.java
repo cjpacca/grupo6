@@ -1,12 +1,16 @@
 package Controlador;
 
-import Modelo.*;
-import Vista.*;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.File;
 
-import java.io.*;
-import javax.swing.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import Modelo.GestorArchivos;
+import Modelo.fileStrategy;
+import Vista.Inicial;
+import Vista.Login;
+import Vista.Registro;
 
 class ControlTest {
 
@@ -21,8 +25,8 @@ class ControlTest {
     @BeforeEach
     void setUp() {
         file = new fileStrategy();
-        vistaRegistro = new Registro(false);
         vistaPrincipal = new Inicial();
+        vistaRegistro = new Registro(false, vistaPrincipal);
         modelo = new GestorArchivos();
         control = new Control(modelo, vistaPrincipal);
     }
@@ -35,7 +39,7 @@ class ControlTest {
     @Test
     void Registro_Incorrecto_Comensal(){
         // Arrange:
-        control.vistaRegistro = new Registro(false);
+        control.vistaRegistro = new Registro(false, vistaPrincipal);
         control.vistaRegistro.txtCedula.setText("");
         control.vistaRegistro.txtPassword.setText(""); 
         control.vistaRegistro.txtCampoExtra.setText(""); 
@@ -47,7 +51,7 @@ class ControlTest {
     @Test
     void Registro_Incorrecto_admin(){
         // Arrange:
-        control.vistaRegistro = new Registro(true);
+        control.vistaRegistro = new Registro(true, vistaPrincipal);
         control.vistaRegistro.txtCedula.setText(""); 
         control.vistaRegistro.txtPassword.setText(""); 
         control.vistaRegistro.txtCampoExtra.setText("");
@@ -59,7 +63,7 @@ class ControlTest {
     @Test
     void Registro_Cedula_NoAutorizada(){
         // Arrange:
-        control.vistaRegistro = new Registro(true);
+        control.vistaRegistro = new Registro(true, vistaPrincipal);
         control.vistaRegistro.txtCedula.setText("987459827587"); 
         control.vistaRegistro.txtPassword.setText("ttt"); 
         control.vistaRegistro.txtCampoExtra.setText("Caraqueno"); 
@@ -71,7 +75,7 @@ class ControlTest {
     @Test
     void Cedula_Registrada(){
                 // Arrange:
-        control.vistaRegistro = new Registro(false);
+        control.vistaRegistro = new Registro(false, vistaPrincipal);
         control.vistaRegistro.txtCedula.setText("31871275"); 
         control.vistaRegistro.txtPassword.setText("yuwery"); 
         control.vistaRegistro.txtCampoExtra.setText("kfjdf"); 
@@ -83,7 +87,7 @@ class ControlTest {
     @Test
     void procesarLogin_conDatosIncorrectos_muestraErrorYRegresaAVistaPrincipal() {
         // Arrange:
-        control.vistaLogin = new Login();
+        control.vistaLogin = new Login(vistaPrincipal);
         control.vistaLogin.txtCedula.setText(""); 
         control.vistaLogin.txtPassword.setText(""); 
 

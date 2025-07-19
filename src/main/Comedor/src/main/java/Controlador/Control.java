@@ -1,11 +1,19 @@
 package Controlador;
 
-import Modelo.*;
-import Vista.*;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
+import Modelo.Administrador;
+import Modelo.Comensal;
+import Modelo.GestorArchivos;
+import Modelo.Usuario;
+import Vista.Inicial;
+import Vista.Login;
+import Vista.Registro;
+import Vista.costos_vista;
+import Vista.vistaComensal;
 
 public class Control implements ActionListener {
 
@@ -55,7 +63,7 @@ public class Control implements ActionListener {
     }
 
     public void abrirVentanaLogin() {
-        vistaLogin = new Login();
+        vistaLogin = new Login(vistaPrincipal);
         vistaLogin.btnLogin.setActionCommand("AccionLogin");
         vistaLogin.setControlador(this);
         vistaPrincipal.setVisible(false);
@@ -63,7 +71,7 @@ public class Control implements ActionListener {
     }
 
     public void abrirVentanaRegistro(boolean esAdmin) {
-        vistaRegistro = new Registro(esAdmin);
+        vistaRegistro = new Registro(esAdmin, vistaPrincipal);
         vistaRegistro.btnRegistrar.setActionCommand("AccionRegistro");
         vistaRegistro.setControlador(this);
         vistaPrincipal.setVisible(false);
