@@ -19,6 +19,7 @@ public class vistaMenu extends JFrame {
     private JLabel labelSeleccionTurno, labelSeleccionMenu;
     private JPanel panelMenuSeleccion;
     private JScrollPane panelTabla;
+    private ActionListener controlador;
     private final String[] columnas = { "Dia De La Semana", "Plato", "Precio" };
 
 
@@ -59,8 +60,9 @@ public class vistaMenu extends JFrame {
             {"Viernes","Hamburguesa con papas fritas", "$9"},
     };
 
-    public vistaMenu(Comensal a) {
+    public vistaMenu(Comensal a, ActionListener controlador) {
 
+        this.controlador = controlador;
         setTitle("Menú Estudiantil");
         setSize(650, 420);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -189,7 +191,7 @@ public class vistaMenu extends JFrame {
             ventanaActual.dispose();
     
 
-            vistaComensal vista = new vistaComensal(a); 
+            vistaComensal vista = new vistaComensal(a, this.controlador); 
             vista.setVisible(true);
         });
 

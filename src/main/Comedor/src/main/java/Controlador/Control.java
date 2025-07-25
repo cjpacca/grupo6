@@ -1,11 +1,14 @@
 package Controlador;
 
+import java.awt.*;
+import java.awt.event.ActionListener;
+import javax.swing.JOptionPane;
 import Modelo.*;
 import Vista.*;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 
 public class Control implements ActionListener {
 
@@ -21,7 +24,6 @@ public class Control implements ActionListener {
     public Control(GestorArchivos modelo, Inicial vistaPrincipal) {
         this.modelo = modelo;
         this.vistaPrincipal = vistaPrincipal;
-
         this.vistaPrincipal.setControlador(this);
     }
 
@@ -31,7 +33,6 @@ public class Control implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // Usamos el texto del botón como comando para identificar la acción
         String comando = e.getActionCommand();
 
         switch (comando) {
@@ -40,17 +41,27 @@ public class Control implements ActionListener {
                 break;
             case "Registrarme como Comensal":
                 abrirVentanaRegistro(false);
-
                 break;
             case "Registrarme como Administrador":
                 abrirVentanaRegistro(true);
                 break;
-            case "AccionLogin": // Comando interno para el botón de la ventana de login
+            case "AccionLogin":
                 procesarLogin();
                 break;
-            case "AccionRegistro": // Comando interno para el botón de la ventana de registro
+            case "AccionRegistro":
                 procesarRegistro();
                 break;
+            case "Cerrar Sesion":
+                Component sourceComponent = (Component) e.getSource();
+            // Buscamos la ventana (JFrame) que contiene a ese botón
+            JFrame frameActual = (JFrame) SwingUtilities.getWindowAncestor(sourceComponent);
+            
+            // Cerramos la ventana actual (la de vistaComensal)
+            if (frameActual != null) {
+                frameActual.dispose();
+            }
+            vistaPrincipal.setVisible(true);
+            break;
         }
     }
 
@@ -69,16 +80,54 @@ public class Control implements ActionListener {
         vistaPrincipal.setVisible(false);
         vistaRegistro.setVisible(true);
     }
+     // Valida que la cédula tenga entre 5 y 8 dígitos y que solo contenga números
+    
+    private boolean validarCedula(String cedula) {
+        if (cedula.length() < 5 || cedula.length() > 8) {
+            return false;
+        }
+        return cedula.matches("\\d+"); // Expresión regular para verificar si son solo dígitos
+    }
+
+    //Valida que el texto solo contenga letras y espacios.
+    private boolean validarTextoSimple(String texto) {
+        if (texto.trim().isEmpty()) {
+            return false;
+        }
+        return texto.matches("[a-zA-Z ]+"); // Expresión regular para letras y espacios
+    }
+
+    /**
+     * Valida la contraseña:
+     * - Longitud entre 5 y 10 caracteres.
+     * - No puede ser solo letras.
+     * - No puede ser solo números.
+     */
+    private boolean validarPassword(String password) {
+        if (password.length() < 5 || password.length() > 10) {
+            return false;
+        }
+        boolean tieneLetra = password.matches(".*[a-zA-Z].*");
+        boolean tieneNumero = password.matches(".*\\d.*");
+        
+        return tieneLetra && tieneNumero;
+    }
+
 
     public boolean procesarLogin() {
         String cedula = vistaLogin.txtCedula.getText();
         String password = new String(vistaLogin.txtPassword.getPassword());
 
-        if (cedula.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(vistaLogin, "Todos los campos son obligatorios.", "Error",
-                    JOptionPane.ERROR_MESSAGE);
+        // **Validación de campos de Login**
+        if (!validarCedula(cedula)) {
+            JOptionPane.showMessageDialog(vistaLogin, "Formato de cédula incorrecto.\nDebe tener entre 5 y 8 dígitos numéricos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        if (password.isEmpty()) {
+             JOptionPane.showMessageDialog(vistaLogin, "El campo contraseña no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+             return false;
+        }
+
         a = modelo.validarLogin(cedula, password);
         int tipo = 0;
         if (a instanceof Administrador) {
@@ -93,17 +142,15 @@ public class Control implements ActionListener {
 
         switch (tipo) {
             case 1:
-
                 costos_vista view = new costos_vista();
                 view.setVisible(true);
                 vistaLogin.dispose();
                 return true;
             case 2:
-                vistaComensal comen = new vistaComensal(c);
+                vistaComensal comen = new vistaComensal(c, this);
                 comen.setVisible(true);
                 vistaLogin.dispose();
                 return true;
-                
             case 3:
                 JOptionPane.showMessageDialog(vistaLogin, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                 vistaLogin.dispose();
@@ -114,44 +161,55 @@ public class Control implements ActionListener {
     }
 
     public boolean procesarRegistro() {
-        // Determinamos si es registro de admin por el título de la ventana
+        String nombre = vistaRegistro.txtNombre.getText();
+        String cedula = vistaRegistro.txtCedula.getText();
+        String password = new String(vistaRegistro.txtPassword.getPassword());
+        String campoExtra = vistaRegistro.txtCampoExtra.getText();
+
+        // **Validaciones robustas para el registro**
+        if (nombre.isEmpty() || cedula.isEmpty() || password.isEmpty() || campoExtra.isEmpty()) {
+            JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!validarCedula(cedula)) {
+            JOptionPane.showMessageDialog(vistaRegistro, "La cédula debe tener entre 5 y 8 dígitos numéricos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!validarTextoSimple(nombre)) {
+            JOptionPane.showMessageDialog(vistaRegistro, "El nombre solo puede contener letras y espacios.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!validarTextoSimple(campoExtra)) {
+            JOptionPane.showMessageDialog(vistaRegistro, "El campo de cargo/facultad solo puede contener letras y espacios.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!validarPassword(password)) {
+            JOptionPane.showMessageDialog(vistaRegistro, "La contraseña debe tener entre 5 y 10 caracteres y contener letras y números.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         boolean esAdmin = vistaRegistro.getTitle().contains("Administrador");
         Administrador a1 = null;
         Comensal c1 = null;
+
         if (esAdmin) {
-            a1 = new Administrador(vistaRegistro.txtNombre.getText(), vistaRegistro.txtCedula.getText(),
-                    new String(vistaRegistro.txtPassword.getPassword()), vistaRegistro.txtCampoExtra.getText());
-            if (a1.getCedula().isEmpty() || a1.getContrasena().isEmpty() || a1.getNombre().isEmpty()
-                    || a1.getCargo().isEmpty()) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
+            a1 = new Administrador(nombre, cedula, password, campoExtra);
         } else {
-            c1 = new Comensal(vistaRegistro.txtNombre.getText(), vistaRegistro.txtCedula.getText(),
-                    new String(vistaRegistro.txtPassword.getPassword()), vistaRegistro.txtCampoExtra.getText());
-            if (c1.getCedula().isEmpty() || c1.getContrasena().isEmpty() || c1.getNombre().isEmpty()
-                    || c1.getFacultad().isEmpty()) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error",
-                        JOptionPane.ERROR_MESSAGE);
-                return false;
-            }
+            c1 = new Comensal(nombre, cedula, password, campoExtra);
         }
 
         boolean exito;
         if (esAdmin) {
             exito = modelo.registrarUsuario(a1, "ADMIN");
             if (!exito) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Error: Cédula no autorizada o ya registrada.",
-                        "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(vistaRegistro, "Error: Cédula no autorizada o ya registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
                 vistaPrincipal.setVisible(true);
                 return false;
             }
         } else {
             exito = modelo.registrarUsuario(c1, "COMENSAL");
             if (!exito) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Error: La cédula ya está registrada.",
-                        "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(vistaRegistro, "Error: La cédula ya está registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
                 vistaPrincipal.setVisible(true);
                 return false;
             }

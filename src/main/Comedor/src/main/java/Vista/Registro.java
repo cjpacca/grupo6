@@ -1,14 +1,22 @@
 package Vista;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class Registro extends JFrame {
     public JTextField txtCedula, txtNombre;
     public JPasswordField txtPassword;
     public JTextField txtCampoExtra; // Será "Facultad" o "Cargo"
     public JButton btnRegistrar;
+    public JButton btnSalir;
 
     public Registro(boolean esAdmin) {
         String userType = esAdmin ? "Administrador" : "Comensal";
@@ -38,8 +46,11 @@ public class Registro extends JFrame {
         txtCampoExtra = new JTextField();
         panel.add(txtCampoExtra);
         
+        btnSalir = new JButton("Salir");
+        panel.add(btnSalir);
+        btnSalir.setActionCommand(("Cerrar Sesion"));
+
         btnRegistrar = new JButton("Registrar");
-        panel.add(new JLabel());
         panel.add(btnRegistrar);
 
         this.add(panel);
@@ -47,6 +58,6 @@ public class Registro extends JFrame {
 
     public void setControlador(ActionListener controlador) {
         btnRegistrar.addActionListener(controlador);
-        
+        btnSalir.addActionListener(controlador);
     }
 }

@@ -1,16 +1,27 @@
 package Vista;
 
-import Modelo.Comensal; // Asegúrate de que esta clase exista en tu paquete Modelo
-import javax.swing.*;
-import javax.swing.border.Border; // Import necesario para el borde
-import java.awt.*;
+import java.awt.BorderLayout; // Asegúrate de que esta clase exista en tu paquete Modelo
+import java.awt.Color;
+import java.awt.Dimension; // Import necesario para el borde
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+
+import Modelo.Comensal;
 
 public class vistaComensal extends JFrame {
 
-    public vistaComensal(Comensal a) {
+    public vistaComensal(Comensal a, ActionListener controlador) {
         // --- Configuración de la ventana ---
-        setTitle("Menú Principal del Restaurante");
+        setTitle("Menú Principal del Comensal");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // **CAMBIO 1: Tamaño fijo de la ventana**
@@ -33,17 +44,23 @@ public class vistaComensal extends JFrame {
 
         // --- Crear y estilizar los botones ---
         JButton btnVerMenu = new JButton("Ver Menú semanal");
+        JButton btnCerrarSesion = new JButton("Cerrar Sesión");
 
         estilizarBoton(btnVerMenu);
+        estilizarBoton(btnCerrarSesion);
 
         panelBotones.add(btnVerMenu);
+        panelBotones.add(btnCerrarSesion);
         add(panelBotones);
 
         btnVerMenu.addActionListener(e -> {
-            vistaMenu panelContenidoMenu = new vistaMenu(a);
+            vistaMenu panelContenidoMenu = new vistaMenu(a, controlador);
             panelContenidoMenu.setVisible(true);
             setVisible(false);
         });
+        
+        btnCerrarSesion.setActionCommand("Cerrar Sesion");
+        btnCerrarSesion.addActionListener(controlador);
 
         setLocationRelativeTo(null);
         setVisible(true);
