@@ -1,11 +1,19 @@
 package Controlador;
 
-import Modelo.*;
-import Vista.*;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.JOptionPane;
+
+import Modelo.Administrador;
+import Modelo.Comensal;
+import Modelo.GestorArchivos;
+import Modelo.Usuario;
+import Vista.Inicial;
+import Vista.Login;
+import Vista.Registro;
+import Vista.costos_vista;
+import Vista.vistaComensal;
 
 public class Control implements ActionListener {
 
@@ -51,12 +59,16 @@ public class Control implements ActionListener {
             case "AccionRegistro": // Comando interno para el botón de la ventana de registro
                 procesarRegistro();
                 break;
+            case "Salir": // Comando para el botón Exit del login
+                salirDelLogin();
+                break;
         }
     }
 
     public void abrirVentanaLogin() {
         vistaLogin = new Login();
         vistaLogin.btnLogin.setActionCommand("AccionLogin");
+        vistaLogin.btnExit.setActionCommand("Salir");
         vistaLogin.setControlador(this);
         vistaPrincipal.setVisible(false);
         vistaLogin.setVisible(true);
@@ -164,5 +176,10 @@ public class Control implements ActionListener {
             return true;
         }
         return false;
+    }
+
+    public void salirDelLogin() {
+        vistaLogin.dispose();
+        vistaPrincipal.setVisible(true);
     }
 }
