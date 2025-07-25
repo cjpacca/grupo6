@@ -22,6 +22,7 @@ public class Control implements ActionListener {
 
     public Login vistaLogin;
     public Registro vistaRegistro;
+    public vistaComensal vistaComensal;
     Usuario a;
     Administrador b;
     Comensal c;
@@ -59,8 +60,11 @@ public class Control implements ActionListener {
             case "AccionRegistro": // Comando interno para el botón de la ventana de registro
                 procesarRegistro();
                 break;
-            case "Salir": // Comando unificado para los botones de Salir
+            case "Salir": // Comando para el botón Exit del login
                 salirAVentanaPrincipal();
+                break;
+            case "Cerrar Sesion":
+                procesarCierreSesion();
                 break;
         }
     }
@@ -77,7 +81,7 @@ public class Control implements ActionListener {
     public void abrirVentanaRegistro(boolean esAdmin) {
         vistaRegistro = new Registro(esAdmin);
         vistaRegistro.btnRegistrar.setActionCommand("AccionRegistro");
-        vistaRegistro.btnSalir.setActionCommand("Salir"); // Reutilizamos el comando "Salir"
+        vistaRegistro.btnSalir.setActionCommand("Salir");
         vistaRegistro.setControlador(this);
         vistaPrincipal.setVisible(false);
         vistaRegistro.setVisible(true);
@@ -112,8 +116,8 @@ public class Control implements ActionListener {
                 vistaLogin.dispose();
                 return true;
             case 2:
-                vistaComensal comen = new vistaComensal(c);
-                comen.setVisible(true);
+                this.vistaComensal = new vistaComensal(c, this);
+                this.vistaComensal.setVisible(true);
                 vistaLogin.dispose();
                 return true;
                 
@@ -179,12 +183,22 @@ public class Control implements ActionListener {
         return false;
     }
 
-    /**
-     * Cierra la ventana secundaria activa (Login o Registro) y vuelve a la ventana principal.
-     */
+/////
     public void salirAVentanaPrincipal() {
-        if (vistaLogin != null) vistaLogin.dispose();
-        if (vistaRegistro != null) vistaRegistro.dispose();
+        if (vistaLogin != null) {
+            vistaLogin.dispose();
+        }
+        if (vistaRegistro != null) {
+            vistaRegistro.dispose();
+        }
+        vistaPrincipal.setVisible(true);
+    }
+
+    public void procesarCierreSesion() {
+        JOptionPane.showMessageDialog(null, "se ha cerrado sesion", "Sesión Terminada", JOptionPane.INFORMATION_MESSAGE);
+        if (this.vistaComensal != null) {
+            this.vistaComensal.dispose();
+        }
         vistaPrincipal.setVisible(true);
     }
 }
