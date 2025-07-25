@@ -177,7 +177,7 @@ public class Control implements ActionListener {
         }
         return false;
     }
-
+/////
     public void salirDelLogin() {
         vistaLogin.dispose();
         vistaPrincipal.setVisible(true);
