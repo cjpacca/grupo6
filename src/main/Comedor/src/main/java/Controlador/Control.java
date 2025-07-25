@@ -59,8 +59,8 @@ public class Control implements ActionListener {
             case "AccionRegistro": // Comando interno para el botón de la ventana de registro
                 procesarRegistro();
                 break;
-            case "Salir": // Comando para el botón Exit del login
-                salirDelLogin();
+            case "Salir": // Comando unificado para los botones de Salir
+                salirAVentanaPrincipal();
                 break;
         }
     }
@@ -77,6 +77,7 @@ public class Control implements ActionListener {
     public void abrirVentanaRegistro(boolean esAdmin) {
         vistaRegistro = new Registro(esAdmin);
         vistaRegistro.btnRegistrar.setActionCommand("AccionRegistro");
+        vistaRegistro.btnSalir.setActionCommand("Salir"); // Reutilizamos el comando "Salir"
         vistaRegistro.setControlador(this);
         vistaPrincipal.setVisible(false);
         vistaRegistro.setVisible(true);
@@ -177,9 +178,13 @@ public class Control implements ActionListener {
         }
         return false;
     }
-/////
-    public void salirDelLogin() {
-        vistaLogin.dispose();
+
+    /**
+     * Cierra la ventana secundaria activa (Login o Registro) y vuelve a la ventana principal.
+     */
+    public void salirAVentanaPrincipal() {
+        if (vistaLogin != null) vistaLogin.dispose();
+        if (vistaRegistro != null) vistaRegistro.dispose();
         vistaPrincipal.setVisible(true);
     }
 }
