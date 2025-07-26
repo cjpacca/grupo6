@@ -1,2 +1,3 @@
-31752534,cjpacca,CaRLOS,ciencias,COMENSAL
-1,cjc,aa,aa,ADMIN
+
+31752534,cjpacca7,Carlos Paccagnella,Ciencias,COMENSAL
+11044327,jesus7,Jesus Manuel,pro,ADMIN

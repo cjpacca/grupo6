@@ -1,4 +1,5 @@
 package Modelo;
+import Vista.*;
 
 import Controlador.Control;
 import Vista.Inicial;
@@ -19,6 +20,7 @@ public class Main {
 
             // 4. Iniciar la aplicación
             controlador.iniciar();
+            
         });
     }
 }

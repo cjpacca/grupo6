@@ -4,6 +4,7 @@ public abstract class Usuario {
     protected String nombre;
     protected String cedula;
     protected String contrasena;
+    protected String rutaFoto;
 
     public Usuario(String nombre, String cedula, String contrasena) {
         this.nombre = nombre;
@@ -22,7 +23,14 @@ public abstract class Usuario {
     public String getContrasena() {
         return contrasena;
     }
-
+    
+    public void setRutaFoto(String rutaFoto) {
+        this.rutaFoto = rutaFoto;
+    }
+    
+    public String getRutaFoto() {
+        return rutaFoto;
+    }
     
     public abstract String getTipo();
 }

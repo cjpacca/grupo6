@@ -4,7 +4,8 @@ import java.io.*;
 
 public class fileStrategy implements AStrategy {
     private static final String USUARIOS_DB = "usuarios.txt";
-    private static final String CEDULAS_AUTORIZADAS_DB = "cedulas_autorizadas.txt";
+    private static final String COMENSALES_DB = "comensales.txt";
+    private static final String ADMINISTRADORES_DB = "administradores.txt";
 
     @Override
     public Usuario validarLogin(String cedula, String password) {
@@ -14,10 +15,10 @@ public class fileStrategy implements AStrategy {
                 String[] datos = linea.split(",");
                 if (datos.length == 5 && datos[0].equals(cedula) && datos[1].equals(password)) {
                     if (datos[4].equals("ADMIN")) {
-                        Usuario a = new Administrador(datos[3], datos[2], datos[0], datos[1]);
+                        Usuario a = new Administrador(datos[3], datos[2], datos[0], datos[1], "default");
                         return a;
                     } else if (datos[4].equals("COMENSAL")) {
-                        Usuario a = new Comensal(datos[3], datos[2], datos[0], datos[1]);
+                        Usuario a = new Comensal(datos[3], datos[2], datos[0], datos[1], "default");
                         return a;
                     }
                 } else if (datos[0].equals(cedula) && !datos[1].equals(password)) {
@@ -34,8 +35,14 @@ public class fileStrategy implements AStrategy {
     public boolean registrarUsuario(Usuario a, String tipo) {
         if (usuarioYaExiste(a.cedula))
             return false;
+        
+        // Verificar contra archivos según tipo
         if (tipo.equals("ADMIN")) {
-            if (!esCedulaAutorizada(a.getCedula()) || usuarioYaExiste(a.getCedula())) {
+            if (!esUsuarioValido(a.getNombre(), a.getCedula(), ADMINISTRADORES_DB)) {
+                return false;
+            }
+        } else if (tipo.equals("COMENSAL")) {
+            if (!esUsuarioValido(a.getNombre(), a.getCedula(), COMENSALES_DB)) {
                 return false;
             }
         }
@@ -58,6 +65,26 @@ public class fileStrategy implements AStrategy {
             return false;
         }
     }
+    
+    private boolean esUsuarioValido(String nombre, String cedula, String archivo) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length >= 2) {
+                    String nombreArchivo = datos[0].trim();
+                    String cedulaArchivo = datos[1].trim();
+                    
+                    if (nombreArchivo.equalsIgnoreCase(nombre) && cedulaArchivo.equals(cedula)) {
+                        return true;
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer archivo " + archivo + ": " + e.getMessage());
+        }
+        return false;
+    }
 
     public boolean usuarioYaExiste(String cedula) {
         try (BufferedReader reader = new BufferedReader(new FileReader(USUARIOS_DB))) {
@@ -77,11 +104,12 @@ public class fileStrategy implements AStrategy {
 
     public boolean esCedulaAutorizada(String cedula) {
         try {
-    File archivo = new File(CEDULAS_AUTORIZADAS_DB);
+    File archivo = new File(ADMINISTRADORES_DB);
     BufferedReader reader = new BufferedReader(new FileReader(archivo));
     String linea;
     while ((linea = reader.readLine()) != null) {
-        if (linea.trim().equals(cedula)) {
+        String[] datos = linea.split(",");
+        if (datos[1].equals(cedula)) {
             reader.close();
             return true;
         }

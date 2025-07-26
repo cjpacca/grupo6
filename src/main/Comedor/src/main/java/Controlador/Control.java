@@ -193,34 +193,38 @@ public class Control implements ActionListener {
         Comensal c1 = null;
 
         if (esAdmin) {
-            a1 = new Administrador(nombre, cedula, password, campoExtra);
+            a1 = new Administrador(nombre, cedula, password, campoExtra, "default");
         } else {
-            c1 = new Comensal(nombre, cedula, password, campoExtra);
+            c1 = new Comensal(nombre, cedula, password, campoExtra, "default");
         }
 
         boolean exito;
         if (esAdmin) {
             exito = modelo.registrarUsuario(a1, "ADMIN");
             if (!exito) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Error: Cédula no autorizada o ya registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(vistaRegistro, 
+                    "Error: No estás autorizado como administrador o la cédula ya está registrada.", 
+                 "Error de Registro", JOptionPane.ERROR_MESSAGE);
                 vistaPrincipal.setVisible(true);
-                return false;
+             return false;
             }
         } else {
             exito = modelo.registrarUsuario(c1, "COMENSAL");
             if (!exito) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Error: La cédula ya está registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(vistaRegistro, 
+                "Error: No estás en la lista de comensales o la cédula ya está registrada.", 
+                "Error de Registro", JOptionPane.ERROR_MESSAGE);
                 vistaPrincipal.setVisible(true);
-                return false;
-            }
+            return false;
         }
-
-        if (exito) {
-            JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso!, inicie sesión");
-            vistaPrincipal.setVisible(true);
-            vistaRegistro.dispose();
-            return true;
-        }
-        return false;
     }
+
+    if (exito) {
+        JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso!, inicie sesión");
+        vistaPrincipal.setVisible(true);
+        vistaRegistro.dispose();
+        return true;
+    }
+    return false;
+}
 }

@@ -1,11 +1,14 @@
 Vista\Login.class
+Modelo\EstadoRegistro.class
 Modelo\fileStrategy.class
 Controlador\Control.class
 Modelo\Main.class
 Vista\vistaMenu.class
 Modelo\GestorArchivos.class
 Modelo\Usuario.class
+Controlador\LectorUsuarios.class
 Modelo\Administrador.class
+Vista\ComparadorFotos.class
 Vista\vistaMenu$1.class
 Vista\costos_vista.class
 Vista\Registro.class
@@ -13,7 +16,9 @@ Modelo\costos_modelo.class
 Vista\Inicial.class
 Vista\vistaMenu$2.class
 Controlador\costos_controlador$1.class
+Controlador\ComparadorImagenes.class
 Controlador\costos_controlador.class
 Modelo\AStrategy.class
 Modelo\Comensal.class
 Vista\vistaComensal.class
+Vista\ComparadorFotos$1.class
