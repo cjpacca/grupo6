@@ -8,7 +8,7 @@ public class GestorArchivos {
     }
 
     // Métodos delegados a la estrategia
-    public EstadoRegistro registrarUsuario(Usuario usuario, String a) {
+    public boolean registrarUsuario(Usuario usuario, String a) {
         return authStrategy.registrarUsuario(usuario, a);
     }
 
