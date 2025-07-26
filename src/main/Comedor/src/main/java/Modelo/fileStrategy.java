@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class fileStrategy implements AStrategy {
     private final String usuariosDbPath;
-    private final String cedulasAutorizadasDbPath;
+    private final String administradoresDbPath;
     private final String comensalesAutorizadosDbPath;
 
     /**
@@ -20,16 +20,16 @@ public class fileStrategy implements AStrategy {
         // Usar rutas absolutas para evitar problemas con el directorio de trabajo.
         String dataDir = "d:/Codigos/grupo6/src/main/Comedor/";
         this.usuariosDbPath = dataDir + "usuarios.txt";
-        this.cedulasAutorizadasDbPath = dataDir + "cedulas_autorizadas.txt";
+        this.administradoresDbPath = dataDir + "Administradores.txt";
         this.comensalesAutorizadosDbPath = dataDir + "Comensales.txt";
     }
 
     /**
      * Constructor para pruebas. Permite inyectar rutas de archivo personalizadas.
      */
-    public fileStrategy(String usuariosDbPath, String cedulasAutorizadasDbPath, String comensalesAutorizadosDbPath) {
+    public fileStrategy(String usuariosDbPath, String administradoresDbPath, String comensalesAutorizadosDbPath) {
         this.usuariosDbPath = usuariosDbPath;
-        this.cedulasAutorizadasDbPath = cedulasAutorizadasDbPath;
+        this.administradoresDbPath = administradoresDbPath;
         this.comensalesAutorizadosDbPath = comensalesAutorizadosDbPath;
     }
 
@@ -133,7 +133,7 @@ public class fileStrategy implements AStrategy {
     }
 
     public boolean esCedulaAutorizada(String cedula) {
-        return esCedulaEnArchivo(cedula, this.cedulasAutorizadasDbPath);
+        return esCedulaEnArchivo(cedula, this.administradoresDbPath);
     }
 
     public boolean esComensalAutorizado(String cedula) {
