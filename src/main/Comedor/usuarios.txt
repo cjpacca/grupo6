@@ -1,3 +1,11 @@
+<<<<<<< HEAD
 
 31752534,cjpacca7,Carlos Paccagnella,Ciencias,COMENSAL
 11044327,jesus7,Jesus Manuel,pro,ADMIN
+=======
+31752534,cjpacca,CaRLOS,ciencias,COMENSAL
+1,cjc,aa,aa,ADMIN
+6228682,123456a,a,a,ADMIN
+12345678,123456a,aaa,aaa,COMENSAL
+11308712,123456a,a,a,ADMIN
+>>>>>>> d844f41cab2c60a47d0cff2fbd63217c71fafc06
