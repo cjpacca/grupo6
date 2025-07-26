@@ -32,7 +32,7 @@ public class fileStrategy implements AStrategy {
         this.administradoresDbPath = administradoresDbPath;
         this.comensalesAutorizadosDbPath = comensalesAutorizadosDbPath;
     }
-
+///AQUI ESTA LA FUNCION
     @Override
     public Usuario validarLogin(String cedula, String password) {
         try (BufferedReader reader = new BufferedReader(new FileReader(this.usuariosDbPath))) {
@@ -68,16 +68,10 @@ public class fileStrategy implements AStrategy {
             return EstadoRegistro.USUARIO_YA_EXISTE;
         }
 
-        if (tipo.equals("ADMIN")) {
-            if (!esCedulaAutorizada(a.getCedula())) {
-                return EstadoRegistro.CEDULA_NO_AUTORIZADA;
-            }
-        } else if (tipo.equals("COMENSAL")) {
-            if (!esComensalAutorizado(a.getCedula())) {
-                return EstadoRegistro.CEDULA_NO_AUTORIZADA;
-            }
-        }
-
+        // La verificación de autorización (nombre y cédula) ahora se hace en el Controlador
+        // antes de llamar a este método, usando 'estaAutorizadoParaRegistrar'.
+        // Se elimina la lógica redundante de aquí para evitar dobles chequeos.
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(this.usuariosDbPath, true))) {
             String campoExtra = "";
             if (a instanceof Administrador) {
@@ -138,5 +132,36 @@ public class fileStrategy implements AStrategy {
 
     public boolean esComensalAutorizado(String cedula) {
         return esCedulaEnArchivo(cedula, this.comensalesAutorizadosDbPath);
+    }
+
+    /**
+     * Verifica si un usuario está pre-autorizado para registrarse.
+     * Lee el archivo comensales.txt o administradores.txt para buscar una coincidencia de nombre y cédula.
+     * Se asume que el formato en esos archivos es: nombre completo,cedula
+     *
+     * @param nombre El nombre del usuario a verificar.
+     * @param cedula La cédula del usuario a verificar.
+     * @param esAdmin True si se debe buscar en administradores.txt, false para comensales.txt.
+     * @return true si el usuario está en la lista de autorizados, false en caso contrario.
+     */
+    @Override
+    public boolean estaAutorizadoParaRegistrar(String nombre, String cedula, boolean esAdmin) {
+        String archivoAutorizacion = esAdmin ? this.administradoresDbPath : this.comensalesAutorizadosDbPath;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoAutorizacion))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+                if (partes.length >= 2) {
+                    if (partes[0].trim().equalsIgnoreCase(nombre.trim()) && partes[1].trim().equals(cedula.trim())) {
+                        return true; // ¡Encontrado! El usuario está autorizado.
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de autorización: " + archivoAutorizacion + " - " + e.getMessage());
+            return false; // Si no se puede leer el archivo, no se autoriza.
+        }
+        return false; // No se encontró al usuario en el archivo.
     }
 }

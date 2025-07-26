@@ -15,4 +15,8 @@ public class GestorArchivos {
     public Usuario validarLogin(String cedula, String password) {
         return authStrategy.validarLogin(cedula, password);
     }
+
+    public boolean estaAutorizadoParaRegistrar(String nombre, String cedula, boolean esAdmin) {
+        return authStrategy.estaAutorizadoParaRegistrar(nombre, cedula, esAdmin);
+    }
 }

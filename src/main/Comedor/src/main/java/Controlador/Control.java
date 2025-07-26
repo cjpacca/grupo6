@@ -190,6 +190,17 @@ public class Control implements ActionListener {
         }
 
         boolean esAdmin = vistaRegistro.getTitle().contains("Administrador");
+
+        // Se verifica si el usuario (nombre y cédula) existe en el archivo de pre-autorizados
+        // (comensales.txt o administradores.txt) antes de intentar el registro.
+        // Esto asume que se ha implementado el método 'estaAutorizadoParaRegistrar' en GestorArchivos.
+        if (!modelo.estaAutorizadoParaRegistrar(nombre, cedula, esAdmin)) {
+            JOptionPane.showMessageDialog(vistaRegistro,
+                    "Error: Su nombre y cédula no se encuentran en la lista de usuarios autorizados para el registro.",
+                    "Usuario No Autorizado", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+
         Usuario nuevoUsuario;
 
         if (esAdmin) {
