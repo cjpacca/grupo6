@@ -1,13 +1,23 @@
 package Controlador;
 
-import java.awt.*;
-import java.awt.event.ActionListener;
-import javax.swing.JOptionPane;
-import Modelo.*;
-import Vista.*;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
+import Modelo.Administrador;
+import Modelo.Comensal;
+import Modelo.EstadoRegistro;
+import Modelo.GestorArchivos;
+import Modelo.Usuario;
+import Vista.Inicial;
+import Vista.Login;
+import Vista.Registro;
+import Vista.costos_vista;
+import Vista.vistaComensal;
 
 
 public class Control implements ActionListener {
@@ -129,35 +139,26 @@ public class Control implements ActionListener {
         }
 
         a = modelo.validarLogin(cedula, password);
-        int tipo = 0;
+
         if (a instanceof Administrador) {
             b = (Administrador) a;
-            tipo = 1;
+            costos_vista view = new costos_vista();
+            view.setVisible(true);
+            vistaLogin.dispose();
+            return true;
         } else if (a instanceof Comensal) {
             c = (Comensal) a;
-            tipo = 2;
+            vistaComensal comen = new vistaComensal(c, this);
+            comen.setVisible(true);
+            vistaLogin.dispose();
+            return true;
         } else {
-            tipo = 3;
+            JOptionPane.showMessageDialog(vistaLogin, "Cédula o contraseña incorrectas.", "Error de Autenticación", JOptionPane.ERROR_MESSAGE);
+            // No cerramos la ventana de login para que el usuario pueda intentarlo de nuevo.
+            // vistaLogin.dispose();
+            // vistaPrincipal.setVisible(true);
+            return false;
         }
-
-        switch (tipo) {
-            case 1:
-                costos_vista view = new costos_vista();
-                view.setVisible(true);
-                vistaLogin.dispose();
-                return true;
-            case 2:
-                vistaComensal comen = new vistaComensal(c, this);
-                comen.setVisible(true);
-                vistaLogin.dispose();
-                return true;
-            case 3:
-                JOptionPane.showMessageDialog(vistaLogin, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-                vistaLogin.dispose();
-                vistaPrincipal.setVisible(true);
-                return false;
-        }
-        return false;
     }
 
     public boolean procesarRegistro() {
@@ -189,38 +190,34 @@ public class Control implements ActionListener {
         }
 
         boolean esAdmin = vistaRegistro.getTitle().contains("Administrador");
-        Administrador a1 = null;
-        Comensal c1 = null;
+        Usuario nuevoUsuario;
 
         if (esAdmin) {
-            a1 = new Administrador(nombre, cedula, password, campoExtra);
+            nuevoUsuario = new Administrador(nombre, cedula, password, campoExtra);
         } else {
-            c1 = new Comensal(nombre, cedula, password, campoExtra);
+            nuevoUsuario = new Comensal(nombre, cedula, password, campoExtra);
         }
 
-        boolean exito;
-        if (esAdmin) {
-            exito = modelo.registrarUsuario(a1, "ADMIN");
-            if (!exito) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Error: Cédula no autorizada o ya registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
-                vistaPrincipal.setVisible(true);
-                return false;
-            }
-        } else {
-            exito = modelo.registrarUsuario(c1, "COMENSAL");
-            if (!exito) {
-                JOptionPane.showMessageDialog(vistaRegistro, "Error: La cédula ya está registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
-                vistaPrincipal.setVisible(true);
-                return false;
-            }
-        }
+        EstadoRegistro resultado = modelo.registrarUsuario(nuevoUsuario, nuevoUsuario.getTipo());
 
-        if (exito) {
-            JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso!, inicie sesión");
-            vistaPrincipal.setVisible(true);
-            vistaRegistro.dispose();
-            return true;
+        switch (resultado) {
+            case EXITO:
+                JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso! Ahora puede iniciar sesión.", "Registro Completado", JOptionPane.INFORMATION_MESSAGE);
+                vistaRegistro.dispose();
+                vistaPrincipal.setVisible(true);
+                return true;
+            case USUARIO_YA_EXISTE:
+                JOptionPane.showMessageDialog(vistaRegistro, "Error: La cédula ya se encuentra registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                return false;
+            case CEDULA_NO_AUTORIZADA:
+                JOptionPane.showMessageDialog(vistaRegistro, "Error: Su cédula no está en la lista de usuarios autorizados para el registro.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                return false;
+            case ERROR_ESCRITURA:
+                JOptionPane.showMessageDialog(vistaRegistro, "Ocurrió un error inesperado al guardar los datos. Contacte al administrador.", "Error Crítico", JOptionPane.ERROR_MESSAGE);
+                return false;
+            default:
+                JOptionPane.showMessageDialog(vistaRegistro, "Ocurrió un error desconocido.", "Error", JOptionPane.ERROR_MESSAGE);
+                return false;
         }
-        return false;
     }
 }
