@@ -150,25 +150,16 @@ public class vistaMenu extends JFrame {
         radioMenu1.addActionListener(listenerMenu);
         radioMenu2.addActionListener(listenerMenu);
 
-        JPanel panelSaldo = new JPanel();
-        panelSaldo.setBackground(colorFondo);
-        panelSaldo.setLayout(new BoxLayout(panelSaldo, BoxLayout.Y_AXIS));
-        panelSaldo.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        JLabel labelSaldoTitulo = new JLabel("Saldo Actual:");
-        labelSaldoTitulo.setFont(new Font("SansSerif", Font.BOLD, 14));
-        JLabel labelSaldoValor = new JLabel(String.format("$%.2f", a.getSaldo()));
-        labelSaldoValor.setFont(new Font("SansSerif", Font.PLAIN, 14));
         
-        panelSaldo.add(labelSaldoTitulo);
-        panelSaldo.add(Box.createRigidArea(new Dimension(0, 5))); 
-        panelSaldo.add(labelSaldoValor);
-
-
         JPanel panelSuperiorGeneral = new JPanel(new BorderLayout());
         panelSuperiorGeneral.setBackground(colorFondo);
-        panelSuperiorGeneral.add(panelSaldo, BorderLayout.WEST);
+        JLabel labelSaldo = new JLabel("Saldo actual: $" + a.getSaldo());
+        labelSaldo.setFont(new Font("SansSerif", Font.BOLD, 16));
+        labelSaldo.setBorder(new EmptyBorder(10, 20, 10, 10));
+
+
         panelSuperiorGeneral.add(panelControles, BorderLayout.CENTER);
+        panelSuperiorGeneral.add(labelSaldo, BorderLayout.WEST);
 
 
         JButton botonVolver = new JButton("← Volver");
