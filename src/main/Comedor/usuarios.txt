@@ -1,3 +1,2 @@
 
-31752534,cjpacca7,Carlos Paccagnella,Ciencias,COMENSAL
-11044327,jesus7,Jesus Manuel,pro,ADMIN
+31752534,cjpacca7,Carlos Paccagnella,Ciencias,0.0,COMENSAL

@@ -13,11 +13,11 @@ public class fileStrategy implements AStrategy {
             String linea;
             while ((linea = reader.readLine()) != null) {
                 String[] datos = linea.split(",");
-                if (datos.length == 5 && datos[0].equals(cedula) && datos[1].equals(password)) {
-                    if (datos[4].equals("ADMIN")) {
+                if (datos.length == 6 && datos[0].equals(cedula) && datos[1].equals(password)) {
+                    if (datos[5].equals("ADMIN")) {
                         Usuario a = new Administrador(datos[3], datos[2], datos[0], datos[1], "default");
                         return a;
-                    } else if (datos[4].equals("COMENSAL")) {
+                    } else if (datos[5].equals("COMENSAL")) {
                         Usuario a = new Comensal(datos[3], datos[2], datos[0], datos[1], "default");
                         return a;
                     }
@@ -50,12 +50,12 @@ public class fileStrategy implements AStrategy {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(USUARIOS_DB, true))) {
             switch (a.getTipo()) {
                 case "ADMIN":
-                    writer.write(a.cedula + "," + a.contrasena + "," + a.nombre + "," + ((Administrador) a).getCargo()
-                            + "," + "ADMIN");
+                    Administrador b=(Administrador)a;
+                    writer.write(b.cedula + "," + b.contrasena + "," + b.nombre + "," + b.getCargo() + "," + "ADMIN");
                     break;
                 case "COMENSAL":
-                    writer.write(a.cedula + "," + a.contrasena + "," + a.nombre + "," + ((Comensal) a).getFacultad()
-                            + "," + "COMENSAL");
+                    Comensal c=(Comensal)a;
+                    writer.write(c.cedula + "," + c.contrasena + "," + c.nombre + "," + c.getFacultad() + ","+ c.getSaldo()+ "," + "COMENSAL");
                     break;
             }
             writer.write("\n");
