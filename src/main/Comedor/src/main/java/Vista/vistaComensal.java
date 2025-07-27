@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -44,12 +45,15 @@ public class vistaComensal extends JFrame {
 
         // --- Crear y estilizar los botones ---
         JButton btnVerMenu = new JButton("Ver Menú semanal");
+        JButton btnRecargarSaldo = new JButton("Recargar Saldo");
         JButton btnCerrarSesion = new JButton("Cerrar Sesión");
 
         estilizarBoton(btnVerMenu);
+        estilizarBoton(btnRecargarSaldo);
         estilizarBoton(btnCerrarSesion);
 
         panelBotones.add(btnVerMenu);
+        panelBotones.add(btnRecargarSaldo);
         panelBotones.add(btnCerrarSesion);
         add(panelBotones);
 
@@ -57,6 +61,23 @@ public class vistaComensal extends JFrame {
             vistaMenu panelContenidoMenu = new vistaMenu(a, controlador);
             panelContenidoMenu.setVisible(true);
             setVisible(false);
+        });
+
+        btnRecargarSaldo.addActionListener(e -> {
+            String montoStr = JOptionPane.showInputDialog(this, "Ingrese el monto a recargar:", "Recargar Saldo", JOptionPane.PLAIN_MESSAGE);
+            if (montoStr != null && !montoStr.trim().isEmpty()) {
+                try {
+                    Float monto = Float.parseFloat(montoStr);
+                    if (monto > 0) {
+                        a.setSaldo(a.getSaldo() + monto);
+                        JOptionPane.showMessageDialog(this, "Saldo recargado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Por favor, ingrese un monto positivo.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(this, "Por favor, ingrese solo números.", "Error de formato", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         });
         
         btnCerrarSesion.setActionCommand("Cerrar Sesion");
