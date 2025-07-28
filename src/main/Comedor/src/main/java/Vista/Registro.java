@@ -2,25 +2,19 @@ package Vista;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 public class Registro extends JFrame {
     public JTextField txtCedula, txtNombre;
     public JPasswordField txtPassword;
-    public JTextField txtCampoExtra; // Será "Facultad" o "Cargo"
+    public JComboBox<String> CampoExtra; // Para Comensal
+    public JTextField txtCampoExtra; // Para Administrador
     public JButton btnRegistrar;
     public JButton btnSalir;
 
     public Registro(boolean esAdmin) {
         String userType = esAdmin ? "Administrador" : "Comensal";
-        String labelExtra = esAdmin ? "Cargo:" : "Facultad:";
+        String labelExtra = esAdmin ? "Cargo:" : "Tipo:";
 
         setTitle("Registro - " + userType);
         setSize(400, 250);
@@ -43,17 +37,35 @@ public class Registro extends JFrame {
         panel.add(txtNombre);
         
         panel.add(new JLabel(labelExtra));
-        txtCampoExtra = new JTextField();
-        panel.add(txtCampoExtra);
+        
+        if (esAdmin) {
+            // Campo de texto para Administrador
+            txtCampoExtra = new JTextField();
+            panel.add(txtCampoExtra);
+        } else {
+            // ComboBox para Comensal
+            CampoExtra = new JComboBox<>(new String[]{"Estudiante", "Profesor", "Empleado"});
+            panel.add(CampoExtra);
+        }
         
         btnSalir = new JButton("Salir");
+        btnSalir.setActionCommand("Cerrar Sesion");
         panel.add(btnSalir);
-        btnSalir.setActionCommand(("Cerrar Sesion"));
 
         btnRegistrar = new JButton("Registrar");
+        //btnRegistrar.setActionCommand("Registrar");
         panel.add(btnRegistrar);
 
         this.add(panel);
+    }
+
+    // Método para obtener el valor del campo extra según el tipo de usuario
+    public String getCampoExtra() {
+        if (CampoExtra != null) {
+            return CampoExtra.getSelectedItem().toString();
+        } else {
+            return txtCampoExtra.getText();
+        }
     }
 
     public void setControlador(ActionListener controlador) {

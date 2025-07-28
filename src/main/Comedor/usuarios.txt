@@ -1,2 +1,3 @@
 
-31752534,cjpacca7,Carlos Paccagnella,Ciencias,0.0,COMENSAL
+
+31752534,cjpacca7,Carlos Paccagnella,Estudiante,0.0,COMENSAL

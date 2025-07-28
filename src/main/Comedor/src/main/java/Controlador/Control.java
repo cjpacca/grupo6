@@ -164,10 +164,16 @@ public class Control implements ActionListener {
         String nombre = vistaRegistro.txtNombre.getText();
         String cedula = vistaRegistro.txtCedula.getText();
         String password = new String(vistaRegistro.txtPassword.getPassword());
-        String campoExtra = vistaRegistro.txtCampoExtra.getText();
-
+        String campoExtra="";
+        String campo="";
+        
+        if(vistaRegistro.getTitle().equals("Registro - Comensal")){
+            campo = vistaRegistro.getCampoExtra();
+        }else{
+            campoExtra = vistaRegistro.txtCampoExtra.getText();
+        }
         // **Validaciones robustas para el registro**
-        if (nombre.isEmpty() || cedula.isEmpty() || password.isEmpty() || campoExtra.isEmpty()) {
+        if (nombre.isEmpty() || cedula.isEmpty() || password.isEmpty() || (campoExtra.isEmpty() && !campoExtra.equals(""))) {
             JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -179,7 +185,7 @@ public class Control implements ActionListener {
             JOptionPane.showMessageDialog(vistaRegistro, "El nombre solo puede contener letras y espacios.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        if (!validarTextoSimple(campoExtra)) {
+        if (!validarTextoSimple(campoExtra) && !campoExtra.equals("")) {
             JOptionPane.showMessageDialog(vistaRegistro, "El campo de cargo/facultad solo puede contener letras y espacios.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
             return false;
         }
@@ -195,7 +201,7 @@ public class Control implements ActionListener {
         if (esAdmin) {
             a1 = new Administrador(nombre, cedula, password, campoExtra, "default");
         } else {
-            c1 = new Comensal(nombre, cedula, password, campoExtra, "default");
+            c1 = new Comensal(nombre, cedula, password, campo, "default");
         }
 
         boolean exito;

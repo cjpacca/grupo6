@@ -55,7 +55,7 @@ public class fileStrategy implements AStrategy {
                     break;
                 case "COMENSAL":
                     Comensal c=(Comensal)a;
-                    writer.write(c.cedula + "," + c.contrasena + "," + c.nombre + "," + c.getFacultad() + ","+ c.getSaldo()+ "," + "COMENSAL");
+                    writer.write(c.cedula + "," + c.contrasena + "," + c.nombre + "," + c.getType() + ","+ c.getSaldo()+ "," + "COMENSAL");
                     break;
             }
             writer.write("\n");

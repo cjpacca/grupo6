@@ -1,12 +1,12 @@
 package Modelo;
 
 public class Comensal extends Usuario {
-    private String facultad;
+    private String tipo;
     private float saldo = 0.00f;
 
-    public Comensal(String nombre, String cedula, String contrasena, String facultad, String rutaFoto) {
+    public Comensal(String nombre, String cedula, String contrasena, String tipo, String rutaFoto) {
         super(nombre, cedula, contrasena);
-        this.facultad = facultad;
+        this.tipo = tipo;
         this.rutaFoto= rutaFoto;
     }
     @Override
@@ -18,8 +18,8 @@ public class Comensal extends Usuario {
         return saldo;
     }
 
-    public String getFacultad() {
-        return facultad;
+    public String getType() {
+        return tipo;
     }
 
     public void setSaldo(float saldo) {
