@@ -1,37 +1,22 @@
 package Modelo;
 
 public class Administrador extends Usuario {
-    String tipoDeUsuario;
-    String cargo;
+    private String cargo;
 
-    public Administrador(String tipoDeUsuario, String cargo, String nombre, String cedula, String contrasena){
-         super(nombre, cedula, contrasena);
-        this.tipoDeUsuario=tipoDeUsuario;
-        this.cargo=cargo;
-       
+    public Administrador(String nombre, String cedula, String contrasena, String cargo, String rutaFoto) {
+        super(nombre, cedula, contrasena);
+        this.cargo = cargo;
+        this.rutaFoto=rutaFoto;
     }
 
-    public String getTipoDeUsuario() {
-        return tipoDeUsuario;
+    @Override
+    public String getTipo() {
+        return "ADMIN";
     }
 
     public String getCargo() {
         return cargo;
     }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public String getCedula() {
-        return cedula;
-    }
-
-    public String getContrasena() {
-        return contrasena;
-    }
-
 }
-
     
 
