@@ -62,14 +62,16 @@ public void actionPerformed(ActionEvent e) {
             String rutaFotoAComparar = fotoSeleccionada.getAbsolutePath();
 
             // Llamamos al NUEVO método del modelo que no requiere cédula
-            boolean exito = modelo.verificarFotoContraTodos(rutaFotoAComparar);
+            Comensal aux= modelo.verificarFotoContraTodos(rutaFotoAComparar);
 
-            if (exito) {
+            if (aux!=null) {
                 // Lógica para cuando la comparación es exitosa
                 JOptionPane.showMessageDialog(adminMenuView, "¡Verificación Exitosa! La foto coincide con un comensal registrado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                
             } else {
                 // Mensaje cuando no hay coincidencias
                 JOptionPane.showMessageDialog(adminMenuView, "La foto no coincide con ningún comensal en la base de datos.", "Verificación Fallida", JOptionPane.ERROR_MESSAGE);
+                
             }
         }
     }

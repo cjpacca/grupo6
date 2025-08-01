@@ -16,7 +16,11 @@ public class GestorArchivos {
         return authStrategy.validarLogin(cedula, password);
     }
 
-    public boolean verificarFotoContraTodos(String rutaFotoAComparar) {
+    public Comensal verificarFotoContraTodos(String rutaFotoAComparar) {
         return authStrategy.verificarFotoContraTodos(rutaFotoAComparar);
+    }
+
+    public boolean actualizarSaldo(String cedula, float nuevoSaldo) {
+        return authStrategy.actualizarSaldo(cedula, nuevoSaldo);
     }
 }

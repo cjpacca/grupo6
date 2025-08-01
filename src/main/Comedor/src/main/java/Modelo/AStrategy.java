@@ -5,5 +5,7 @@ public interface AStrategy {
 
     boolean registrarUsuario(Usuario usuario, String a);
     
-    boolean verificarFotoContraTodos(String rutaFotoAComparar);
+    Comensal verificarFotoContraTodos(String rutaFotoAComparar);
+
+    boolean actualizarSaldo(String cedula, float nuevoSaldo);
 }

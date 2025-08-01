@@ -17,6 +17,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import Modelo.Comensal;
+import Modelo.GestorArchivos;
 
 public class vistaComensal extends JFrame {
 
@@ -70,6 +71,8 @@ public class vistaComensal extends JFrame {
                     Float monto = Float.parseFloat(montoStr);
                     if (monto > 0) {
                         a.setSaldo(a.getSaldo() + monto);
+                        GestorArchivos gestor = new GestorArchivos();
+                        gestor.actualizarSaldo(a.getCedula(), a.getSaldo());
                         JOptionPane.showMessageDialog(this, "Saldo recargado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(this, "Por favor, ingrese un monto positivo.", "Error", JOptionPane.ERROR_MESSAGE);

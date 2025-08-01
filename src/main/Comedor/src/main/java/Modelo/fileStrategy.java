@@ -22,7 +22,8 @@ public class fileStrategy implements AStrategy {
                         Usuario a = new Administrador(datos[3], datos[2], datos[0], datos[1], "default");
                         return a;
                     } else if (datos[5].equals("COMENSAL")) {
-                        Usuario a = new Comensal(datos[3], datos[2], datos[0], datos[1], "default");
+                        float saldo = Float.parseFloat(datos[4]);
+                        Usuario a = new Comensal(datos[2], datos[0], datos[1], datos[3], saldo, "default");
                         return a;
                     }
                 } else if (datos[0].equals(cedula) && !datos[1].equals(password)) {
@@ -55,7 +56,7 @@ public class fileStrategy implements AStrategy {
             switch (a.getTipo()) {
                 case "ADMIN":
                     Administrador b=(Administrador)a;
-                    writer.write(b.cedula + "," + b.contrasena + "," + b.nombre + "," + b.getCargo() + ",0.0" + "ADMIN");
+                    writer.write(b.cedula + "," + b.contrasena + "," + b.nombre + "," + b.getCargo() + ",0.0," + "ADMIN");
                     break;
                 case "COMENSAL":
                     Comensal c=(Comensal)a;
@@ -126,7 +127,24 @@ public class fileStrategy implements AStrategy {
         return false;
     }
     
-    public boolean verificarFotoContraTodos(String rutaFotoAComparar) {
+    public Comensal buscarUsuario(String cedula){
+        try (BufferedReader reader = new BufferedReader(new FileReader(USUARIOS_DB))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length == 6 && datos[0].equals(cedula)) {
+                        float saldo = Float.parseFloat(datos[4]);
+                        Comensal a = new Comensal(datos[2], datos[0], datos[1], datos[3], saldo, "default");
+                        return a;
+                }
+            }
+        } catch (IOException e) {
+            return null;
+        }
+        return null; // No se encontró el usuario o la contraseña no coincide
+    }
+    
+    public Comensal verificarFotoContraTodos(String rutaFotoAComparar) {
     try (BufferedReader reader = new BufferedReader(new FileReader(COMENSALES_DB))) {
         String linea;
         while ((linea = reader.readLine()) != null) {
@@ -134,14 +152,15 @@ public class fileStrategy implements AStrategy {
             if (datos.length >= 3) { // Asumiendo que el tercer campo es la ruta de la foto
                 String rutaFotoRegistrada = datos[2].trim();
                 if (compararImagenes(rutaFotoRegistrada, rutaFotoAComparar)) {
-                    return true;
+                    Comensal aux = buscarUsuario(datos[1].trim());
+                    return aux;
                 }
             }
         }
     } catch (IOException e) {
         System.err.println("Error al leer archivo de comensales: " + e.getMessage());
     }
-    return false;
+    return null;
 }
     
         private boolean compararImagenes(String rutaImagen1, String rutaImagen2) {
@@ -177,5 +196,45 @@ public class fileStrategy implements AStrategy {
             System.err.println("Error al leer el archivo de comensales: " + e.getMessage());
         }
         return paths;
+    }
+
+    public boolean actualizarSaldo(String cedula, float nuevoSaldo) {
+        File archivoDB = new File(USUARIOS_DB);
+        File archivoTemporal = new File(archivoDB.getParent(), "usuarios_temp.txt");
+        boolean actualizado = false;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(archivoDB));
+             BufferedWriter writer = new BufferedWriter(new FileWriter(archivoTemporal))) {
+
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split(",");
+                if (datos.length > 0 && datos[0].equals(cedula)) {
+                    // Actualizar el saldo
+                    datos[4] = String.valueOf(nuevoSaldo);
+                    linea = String.join(",", datos);
+                    actualizado = true;
+                }
+                writer.write(linea + System.lineSeparator());
+            }
+        } catch (IOException e) {
+            System.err.println("Error al actualizar el saldo: " + e.getMessage());
+            return false;
+        }
+
+        // Reemplazar el archivo original con el temporal
+        if (actualizado) {
+            try {
+                Files.move(archivoTemporal.toPath(), archivoDB.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                System.err.println("Error al reemplazar el archivo de base de datos: " + e.getMessage());
+                return false;
+            }
+        } else {
+            // Si no se actualizó nada, simplemente borra el archivo temporal
+            archivoTemporal.delete();
+        }
+
+        return actualizado;
     }
 }
