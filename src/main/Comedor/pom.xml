@@ -7,6 +7,7 @@
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+<<<<<<< HEAD
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>com.mycompany.comedor.Comedor</exec.mainClass>
 </properties>
@@ -19,4 +20,9 @@
         </dependency>
     
     </dependencies>
+=======
+        <maven.compiler.release>24</maven.compiler.release>
+        <exec.mainClass>com.mycompany.comedor.Comedor</exec.mainClass>
+    </properties>
+>>>>>>> temporal
 </project>

@@ -1,12 +1,19 @@
 package Vista;
 
+<<<<<<< HEAD
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+=======
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionListener;
+>>>>>>> temporal
 
 public class Registro extends JFrame {
     public JTextField txtCedula, txtNombre;
     public JPasswordField txtPassword;
+<<<<<<< HEAD
     public JComboBox<String> CampoExtra; // Para Comensal
     public JTextField txtCampoExtra; // Para Administrador
     public JButton btnRegistrar;
@@ -15,6 +22,14 @@ public class Registro extends JFrame {
     public Registro(boolean esAdmin) {
         String userType = esAdmin ? "Administrador" : "Comensal";
         String labelExtra = esAdmin ? "Cargo:" : "Tipo:";
+=======
+    public JTextField txtCampoExtra; // Será "Facultad" o "Cargo"
+    public JButton btnRegistrar;
+
+    public Registro(boolean esAdmin) {
+        String userType = esAdmin ? "Administrador" : "Comensal";
+        String labelExtra = esAdmin ? "Cargo:" : "Facultad:";
+>>>>>>> temporal
 
         setTitle("Registro - " + userType);
         setSize(400, 250);
@@ -37,6 +52,7 @@ public class Registro extends JFrame {
         panel.add(txtNombre);
         
         panel.add(new JLabel(labelExtra));
+<<<<<<< HEAD
         
         if (esAdmin) {
             // Campo de texto para Administrador
@@ -54,11 +70,19 @@ public class Registro extends JFrame {
 
         btnRegistrar = new JButton("Registrar");
         //btnRegistrar.setActionCommand("Registrar");
+=======
+        txtCampoExtra = new JTextField();
+        panel.add(txtCampoExtra);
+        
+        btnRegistrar = new JButton("Registrar");
+        panel.add(new JLabel());
+>>>>>>> temporal
         panel.add(btnRegistrar);
 
         this.add(panel);
     }
 
+<<<<<<< HEAD
     // Método para obtener el valor del campo extra según el tipo de usuario
     public String getCampoExtra() {
         if (CampoExtra != null) {
@@ -73,3 +97,10 @@ public class Registro extends JFrame {
         btnSalir.addActionListener(controlador);
     }
 }
+=======
+    public void setControlador(ActionListener controlador) {
+        btnRegistrar.addActionListener(controlador);
+        
+    }
+}
+>>>>>>> temporal

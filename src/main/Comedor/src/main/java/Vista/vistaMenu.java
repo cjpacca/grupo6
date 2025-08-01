@@ -19,15 +19,25 @@ public class vistaMenu extends JFrame {
     private JLabel labelSeleccionTurno, labelSeleccionMenu;
     private JPanel panelMenuSeleccion;
     private JScrollPane panelTabla;
+<<<<<<< HEAD
     private ActionListener controlador;
     private final String[] columnas = { "Dia De La Semana", "Plato", "Precio" };
 
 
+=======
+    private final String[] columnas = { "Dia De La Semana", "Plato", "Precio" };
+
+    // --- Colores y Estilos ---
+>>>>>>> temporal
     private final Color colorFondo = new Color(230, 230, 230);
     private final Color colorMorado = new Color(128, 0, 128);
     private final Border bordeConPadding = new EmptyBorder(2, 2, 10, 10);
 
+<<<<<<< HEAD
 
+=======
+    // Datos de ejemplo para los menús
+>>>>>>> temporal
     private final Object[][] menuManana1 = {
             {"Lunes","Sandwich y malta y/o jugo de naranja", "$5"},
             {"Martes","Empanadas de pollo/carne y malta", "$2"},
@@ -60,9 +70,14 @@ public class vistaMenu extends JFrame {
             {"Viernes","Hamburguesa con papas fritas", "$9"},
     };
 
+<<<<<<< HEAD
     public vistaMenu(Comensal a, ActionListener controlador) {
 
         this.controlador = controlador;
+=======
+    public vistaMenu(Comensal a) {
+        // --- Configuración de la Ventana Principal ---
+>>>>>>> temporal
         setTitle("Menú Estudiantil");
         setSize(650, 420);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,6 +85,10 @@ public class vistaMenu extends JFrame {
         setLayout(new BorderLayout(10, 10));
         getContentPane().setBackground(colorFondo);
 
+<<<<<<< HEAD
+=======
+        // --- Panel Superior para los Botones de Selección de Turno ---
+>>>>>>> temporal
         JPanel panelSuperior = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         panelSuperior.setBackground(colorFondo);
         labelSeleccionTurno = new JLabel("Seleccione un turno:");
@@ -84,6 +103,10 @@ public class vistaMenu extends JFrame {
         panelSuperior.add(radioManana);
         panelSuperior.add(radioTarde);
 
+<<<<<<< HEAD
+=======
+        // --- Panel para Selección de Menú (inicialmente oculto) ---
+>>>>>>> temporal
         panelMenuSeleccion = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
         panelMenuSeleccion.setBackground(colorFondo);
         labelSeleccionMenu = new JLabel("Seleccione un menú:");
@@ -99,12 +122,20 @@ public class vistaMenu extends JFrame {
         panelMenuSeleccion.add(radioMenu2);
         panelMenuSeleccion.setVisible(false);
 
+<<<<<<< HEAD
+=======
+        // Panel contenedor para turno y menu
+>>>>>>> temporal
         JPanel panelControles = new JPanel(new GridLayout(2, 1));
         panelControles.setBackground(colorFondo);
         panelControles.add(panelSuperior);
         panelControles.add(panelMenuSeleccion);
         panelControles.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+<<<<<<< HEAD
+=======
+        // --- Tabla para mostrar el Menú ---
+>>>>>>> temporal
         DefaultTableModel modeloTabla = new DefaultTableModel(new Object[][]{}, columnas);
         tablaMenu = new JTable(modeloTabla);
         tablaMenu.setEnabled(false);
@@ -112,8 +143,14 @@ public class vistaMenu extends JFrame {
         tablaMenu.getTableHeader().setReorderingAllowed(false);
         tablaMenu.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 12));
         tablaMenu.setShowGrid(true);
+<<<<<<< HEAD
         tablaMenu.setGridColor(new Color(220, 220, 220)); 
 
+=======
+        tablaMenu.setGridColor(new Color(220, 220, 220)); // Un gris claro para las líneas
+
+        // Centrar los encabezados de la tabla
+>>>>>>> temporal
         ((DefaultTableCellRenderer) tablaMenu.getTableHeader().getDefaultRenderer())
                 .setHorizontalAlignment(JLabel.CENTER);
 
@@ -125,6 +162,10 @@ public class vistaMenu extends JFrame {
         panelTabla = new JScrollPane(tablaMenu);
         panelTabla.setVisible(false);
 
+<<<<<<< HEAD
+=======
+        // --- Lógica para actualizar la tabla ---
+>>>>>>> temporal
         ActionListener listenerTurno = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -150,6 +191,7 @@ public class vistaMenu extends JFrame {
         radioMenu1.addActionListener(listenerMenu);
         radioMenu2.addActionListener(listenerMenu);
 
+<<<<<<< HEAD
         
         JPanel panelSuperiorGeneral = new JPanel(new BorderLayout());
         panelSuperiorGeneral.setBackground(colorFondo);
@@ -162,6 +204,30 @@ public class vistaMenu extends JFrame {
         panelSuperiorGeneral.add(labelSaldo, BorderLayout.WEST);
 
 
+=======
+        // --- Panel Izquierdo para el Saldo ---
+        JPanel panelSaldo = new JPanel();
+        panelSaldo.setBackground(colorFondo);
+        panelSaldo.setLayout(new BoxLayout(panelSaldo, BoxLayout.Y_AXIS));
+        panelSaldo.setBorder(new EmptyBorder(10, 10, 10, 10));
+
+        JLabel labelSaldoTitulo = new JLabel("Saldo Actual:");
+        labelSaldoTitulo.setFont(new Font("SansSerif", Font.BOLD, 14));
+        JLabel labelSaldoValor = new JLabel(String.format("$%.2f", a.getSaldo()));
+        labelSaldoValor.setFont(new Font("SansSerif", Font.PLAIN, 14));
+        
+        panelSaldo.add(labelSaldoTitulo);
+        panelSaldo.add(Box.createRigidArea(new Dimension(0, 5))); // Espacio
+        panelSaldo.add(labelSaldoValor);
+
+        // --- Panel Superior General ---
+        JPanel panelSuperiorGeneral = new JPanel(new BorderLayout());
+        panelSuperiorGeneral.setBackground(colorFondo);
+        panelSuperiorGeneral.add(panelSaldo, BorderLayout.WEST);
+        panelSuperiorGeneral.add(panelControles, BorderLayout.CENTER);
+
+        // --- Botón de Volver ---
+>>>>>>> temporal
         JButton botonVolver = new JButton("← Volver");
     botonVolver.setFont(new Font("SansSerif", Font.BOLD, 20));
     botonVolver.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -170,6 +236,7 @@ public class vistaMenu extends JFrame {
     botonVolver.setCursor(new Cursor(Cursor.HAND_CURSOR));
     botonVolver.setToolTipText("Volver");
 
+<<<<<<< HEAD
 
         JPanel panelBotonVolver = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panelBotonVolver.setBackground(colorFondo); 
@@ -187,12 +254,35 @@ public class vistaMenu extends JFrame {
         });
 
 
+=======
+// Panel para el botón (opcional, según tu diseño)
+        JPanel panelBotonVolver = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panelBotonVolver.setBackground(colorFondo); // Asegúrate de definir 'colorFondo'
+        panelBotonVolver.add(botonVolver);
+
+// --- Acción al presionar el botón ---
+        botonVolver.addActionListener(e -> {
+    // Cierra la ventana actual
+            Window ventanaActual = SwingUtilities.getWindowAncestor(botonVolver);
+            ventanaActual.dispose();
+    
+    // Abre la ventana 'vistaComensal'
+            vistaComensal vista = new vistaComensal(a); // Asegúrate de que la clase exista
+            vista.setVisible(true);
+        });
+
+        // --- Panel Norte Completo (Contenedor para botón y paneles superiores) ---
+>>>>>>> temporal
         JPanel panelNorteCompleto = new JPanel(new BorderLayout());
         panelNorteCompleto.setBackground(colorFondo);
         panelNorteCompleto.add(panelBotonVolver, BorderLayout.NORTH);
         panelNorteCompleto.add(panelSuperiorGeneral, BorderLayout.CENTER);
 
+<<<<<<< HEAD
 
+=======
+        // --- Añadir los componentes a la ventana ---
+>>>>>>> temporal
         add(panelNorteCompleto, BorderLayout.NORTH);
         add(panelTabla, BorderLayout.CENTER);
         ((JPanel) getContentPane()).setBorder(bordeConPadding);
@@ -219,6 +309,10 @@ public class vistaMenu extends JFrame {
         modelo = new DefaultTableModel(datos, columnas);
         tablaMenu.setModel(modelo);
 
+<<<<<<< HEAD
+=======
+        // Re-aplicar el tamaño de las columnas
+>>>>>>> temporal
         TableColumnModel columnModel = tablaMenu.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(100);
         columnModel.getColumn(1).setPreferredWidth(400);

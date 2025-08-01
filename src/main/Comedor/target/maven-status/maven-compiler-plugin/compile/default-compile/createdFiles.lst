@@ -1,5 +1,8 @@
 Vista\Login.class
+<<<<<<< HEAD
 Modelo\fileStrategy.class
+=======
+>>>>>>> temporal
 Controlador\Control.class
 Modelo\Main.class
 Vista\vistaMenu.class
@@ -14,6 +17,9 @@ Vista\Inicial.class
 Vista\vistaMenu$2.class
 Controlador\costos_controlador$1.class
 Controlador\costos_controlador.class
+<<<<<<< HEAD
 Modelo\AStrategy.class
+=======
+>>>>>>> temporal
 Modelo\Comensal.class
 Vista\vistaComensal.class

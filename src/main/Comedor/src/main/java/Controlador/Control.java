@@ -1,5 +1,6 @@
 package Controlador;
 
+<<<<<<< HEAD
 import java.awt.*;
 import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
@@ -9,10 +10,21 @@ import java.awt.event.ActionEvent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+=======
+import Modelo.GestorArchivos;
+import Vista.*;
+import Modelo.*;
+import java.awt.*;
+
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+>>>>>>> temporal
 
 public class Control implements ActionListener {
 
     private final GestorArchivos modelo;
+<<<<<<< HEAD
     public final Inicial vistaPrincipal;
 
     public Login vistaLogin;
@@ -24,6 +36,21 @@ public class Control implements ActionListener {
     public Control(GestorArchivos modelo, Inicial vistaPrincipal) {
         this.modelo = modelo;
         this.vistaPrincipal = vistaPrincipal;
+=======
+    private final Inicial vistaPrincipal;
+    private vistaComensal comen;
+    
+    private Login vistaLogin;
+    private Registro vistaRegistro;
+    Usuario a;
+    Administrador b;
+    Comensal c;
+    
+    public Control(GestorArchivos modelo, Inicial vistaPrincipal) {
+        this.modelo = modelo;
+        this.vistaPrincipal = vistaPrincipal;
+        
+>>>>>>> temporal
         this.vistaPrincipal.setControlador(this);
     }
 
@@ -33,6 +60,10 @@ public class Control implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+<<<<<<< HEAD
+=======
+        // Usamos el texto del botón como comando para identificar la acción
+>>>>>>> temporal
         String comando = e.getActionCommand();
 
         switch (comando) {
@@ -41,10 +72,15 @@ public class Control implements ActionListener {
                 break;
             case "Registrarme como Comensal":
                 abrirVentanaRegistro(false);
+<<<<<<< HEAD
+=======
+                
+>>>>>>> temporal
                 break;
             case "Registrarme como Administrador":
                 abrirVentanaRegistro(true);
                 break;
+<<<<<<< HEAD
             case "AccionLogin":
                 procesarLogin();
                 break;
@@ -66,6 +102,18 @@ public class Control implements ActionListener {
     }
 
     public void abrirVentanaLogin() {
+=======
+            case "AccionLogin": // Comando interno para el botón de la ventana de login
+                procesarLogin();
+                break;
+            case "AccionRegistro": // Comando interno para el botón de la ventana de registro
+                procesarRegistro();
+                break;
+        }
+    }
+
+    private void abrirVentanaLogin() {
+>>>>>>> temporal
         vistaLogin = new Login();
         vistaLogin.btnLogin.setActionCommand("AccionLogin");
         vistaLogin.setControlador(this);
@@ -73,13 +121,18 @@ public class Control implements ActionListener {
         vistaLogin.setVisible(true);
     }
 
+<<<<<<< HEAD
     public void abrirVentanaRegistro(boolean esAdmin) {
+=======
+    private void abrirVentanaRegistro(boolean esAdmin) {
+>>>>>>> temporal
         vistaRegistro = new Registro(esAdmin);
         vistaRegistro.btnRegistrar.setActionCommand("AccionRegistro");
         vistaRegistro.setControlador(this);
         vistaPrincipal.setVisible(false);
         vistaRegistro.setVisible(true);
     }
+<<<<<<< HEAD
      // Valida que la cédula tenga entre 5 y 8 dígitos y que solo contenga números
     
     private boolean validarCedula(String cedula) {
@@ -151,10 +204,47 @@ public class Control implements ActionListener {
                 comen.setVisible(true);
                 vistaLogin.dispose();
                 return true;
+=======
+    
+    private void procesarLogin() {
+        String cedula = vistaLogin.txtCedula.getText();
+        String password = new String(vistaLogin.txtPassword.getPassword());
+
+        if (cedula.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(vistaLogin, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        a = modelo.validarLogin(cedula, password);
+        int tipo=0;
+        if( a instanceof Administrador){
+            b= (Administrador)a;
+            tipo=1;
+        } else if(a instanceof Comensal){
+            c= (Comensal)a;
+            tipo=2;
+        }else{
+            tipo=3;
+        }
+            
+        switch(tipo){
+            case 1:
+                costos_modelo model = new costos_modelo();
+                costos_vista view = new costos_vista();
+                costos_controlador controller = new costos_controlador(model, view);
+                view.setVisible(true);
+                vistaLogin.dispose();
+                break;
+            case 2:
+                vistaComensal comen = new vistaComensal(c);
+                comen.setVisible(true);
+                vistaLogin.dispose();
+                break;
+>>>>>>> temporal
             case 3:
                 JOptionPane.showMessageDialog(vistaLogin, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
                 vistaLogin.dispose();
                 vistaPrincipal.setVisible(true);
+<<<<<<< HEAD
                 return false;
         }
         return false;
@@ -234,3 +324,50 @@ public class Control implements ActionListener {
     return false;
 }
 }
+=======
+                break;
+        }
+    }
+
+    private void procesarRegistro() {        
+        // Determinamos si es registro de admin por el título de la ventana
+        boolean esAdmin = vistaRegistro.getTitle().contains("Administrador");
+        Administrador a1=null;
+        Comensal c1=null;
+        if(esAdmin){
+            a1 = new Administrador("ADMIN",vistaRegistro.txtCampoExtra.getText(), vistaRegistro.txtNombre.getText(), vistaRegistro.txtCedula.getText(),new String(vistaRegistro.txtPassword.getPassword()));
+            if(a1.getCedula().isEmpty() || a1.getContrasena().isEmpty() || a1.getNombre().isEmpty() || a1.getCargo().isEmpty()) {
+                JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }else{
+            c1 = new Comensal("COMENSAL",vistaRegistro.txtCampoExtra.getText(), vistaRegistro.txtNombre.getText(),vistaRegistro.txtCedula.getText(),new String(vistaRegistro.txtPassword.getPassword()));
+            if(c1.getCedula().isEmpty() || c1.getContrasena().isEmpty() || c1.getNombre().isEmpty() || c1.getFacultad().isEmpty()) {
+                JOptionPane.showMessageDialog(vistaRegistro, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+        }
+        
+        boolean exito;
+        if (esAdmin) {
+            exito = modelo.registrarAdmin(a1);
+             if (!exito) {
+                JOptionPane.showMessageDialog(vistaRegistro, "Error: Cédula no autorizada o ya registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                vistaPrincipal.setVisible(true);
+             }
+        } else {
+            exito = modelo.registrarComensal(c1);
+             if (!exito) {
+                JOptionPane.showMessageDialog(vistaRegistro, "Error: La cédula ya está registrada.", "Error de Registro", JOptionPane.ERROR_MESSAGE);
+                vistaPrincipal.setVisible(true);
+             }
+        }
+
+        if (exito) {
+            JOptionPane.showMessageDialog(vistaRegistro, "¡Registro exitoso!, inicie sesión");
+            vistaPrincipal.setVisible(true);
+            vistaRegistro.dispose();
+        }
+    }
+}
+>>>>>>> temporal
