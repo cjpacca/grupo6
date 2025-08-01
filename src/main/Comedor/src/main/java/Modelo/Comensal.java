@@ -9,6 +9,13 @@ public class Comensal extends Usuario {
         this.tipo = tipo;
         this.rutaFoto= rutaFoto;
     }
+
+    public Comensal(String nombre, String cedula, String contrasena, String tipo, float saldo, String rutaFoto) {
+        super(nombre, cedula, contrasena);
+        this.tipo = tipo;
+        this.saldo = saldo;
+        this.rutaFoto = rutaFoto;
+    }
     @Override
     public String getTipo() {
         return "COMENSAL";
