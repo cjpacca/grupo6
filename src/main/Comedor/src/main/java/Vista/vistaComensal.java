@@ -1,6 +1,5 @@
 package Vista;
 
-<<<<<<< HEAD
 import java.awt.BorderLayout; // Asegúrate de que esta clase exista en tu paquete Modelo
 import java.awt.Color;
 import java.awt.Dimension; // Import necesario para el borde
@@ -24,19 +23,6 @@ public class vistaComensal extends JFrame {
     public vistaComensal(Comensal a, ActionListener controlador) {
         // --- Configuración de la ventana ---
         setTitle("Menú Principal del Comensal");
-=======
-import Modelo.Comensal; // Asegúrate de que esta clase exista en tu paquete Modelo
-import javax.swing.*;
-import javax.swing.border.Border; // Import necesario para el borde
-import java.awt.*;
-import java.awt.event.ActionListener;
-
-public class vistaComensal extends JFrame {
-
-    public vistaComensal(Comensal a) {
-        // --- Configuración de la ventana ---
-        setTitle("Menú Principal del Restaurante");
->>>>>>> temporal
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // **CAMBIO 1: Tamaño fijo de la ventana**
@@ -59,7 +45,6 @@ public class vistaComensal extends JFrame {
 
         // --- Crear y estilizar los botones ---
         JButton btnVerMenu = new JButton("Ver Menú semanal");
-<<<<<<< HEAD
         JButton btnRecargarSaldo = new JButton("Recargar Saldo");
         JButton btnCerrarSesion = new JButton("Cerrar Sesión");
 
@@ -74,21 +59,10 @@ public class vistaComensal extends JFrame {
 
         btnVerMenu.addActionListener(e -> {
             vistaMenu panelContenidoMenu = new vistaMenu(a, controlador);
-=======
-
-        estilizarBoton(btnVerMenu);
-
-        panelBotones.add(btnVerMenu);
-        add(panelBotones);
-
-        btnVerMenu.addActionListener(e -> {
-            vistaMenu panelContenidoMenu = new vistaMenu(a);
->>>>>>> temporal
             panelContenidoMenu.setVisible(true);
             setVisible(false);
         });
 
-<<<<<<< HEAD
         btnRecargarSaldo.addActionListener(e -> {
             String montoStr = JOptionPane.showInputDialog(this, "Ingrese el monto a recargar:", "Recargar Saldo", JOptionPane.PLAIN_MESSAGE);
             if (montoStr != null && !montoStr.trim().isEmpty()) {
@@ -109,8 +83,6 @@ public class vistaComensal extends JFrame {
         btnCerrarSesion.setActionCommand("Cerrar Sesion");
         btnCerrarSesion.addActionListener(controlador);
 
-=======
->>>>>>> temporal
         setLocationRelativeTo(null);
         setVisible(true);
     }

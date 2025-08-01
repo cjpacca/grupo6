@@ -1,25 +1,25 @@
 Vista\Login.class
-<<<<<<< HEAD
-Modelo\fileStrategy.class
-=======
->>>>>>> temporal
+Vista\AgregarMenuVista.class
 Controlador\Control.class
 Modelo\Main.class
-Vista\vistaMenu.class
+Vista\AdminMenuView.class
 Modelo\GestorArchivos.class
-Modelo\Usuario.class
 Modelo\Administrador.class
 Vista\vistaMenu$1.class
-Vista\costos_vista.class
 Vista\Registro.class
-Modelo\costos_modelo.class
 Vista\Inicial.class
 Vista\vistaMenu$2.class
+Controlador\ControlAdmin$2.class
 Controlador\costos_controlador$1.class
-Controlador\costos_controlador.class
-<<<<<<< HEAD
-Modelo\AStrategy.class
-=======
->>>>>>> temporal
 Modelo\Comensal.class
 Vista\vistaComensal.class
+Modelo\fileStrategy.class
+Vista\vistaMenu.class
+Controlador\ControlAdmin.class
+Modelo\Usuario.class
+Modelo\MenuModelo.class
+Vista\costos_vista.class
+Controlador\ControlAdmin$1.class
+Modelo\costos_modelo.class
+Controlador\costos_controlador.class
+Modelo\AStrategy.class

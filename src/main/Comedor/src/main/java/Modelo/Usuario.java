@@ -1,6 +1,5 @@
 package Modelo;
 
-<<<<<<< HEAD
 public abstract class Usuario {
     protected String nombre;
     protected String cedula;
@@ -11,18 +10,6 @@ public abstract class Usuario {
         this.nombre = nombre;
         this.cedula = cedula;
         this.contrasena = contrasena;
-=======
-public class Usuario {
-    public 
-    String nombre;
-    String cedula;
-    String contrasena;
-
-    public Usuario(String nombre, String cedula, String contrasena ){
-        this.nombre=nombre;
-        this.cedula=cedula;
-        this.contrasena=contrasena;
->>>>>>> temporal
     }
 
     public String getNombre() {
@@ -37,7 +24,6 @@ public class Usuario {
         return contrasena;
     }
     
-<<<<<<< HEAD
     public void setRutaFoto(String rutaFoto) {
         this.rutaFoto = rutaFoto;
     }
@@ -48,7 +34,3 @@ public class Usuario {
     
     public abstract String getTipo();
 }
-=======
-}
-
->>>>>>> temporal

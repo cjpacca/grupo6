@@ -1,6 +1,10 @@
 package Modelo;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class fileStrategy implements AStrategy {
     private static final String USUARIOS_DB = "usuarios.txt";
@@ -51,7 +55,7 @@ public class fileStrategy implements AStrategy {
             switch (a.getTipo()) {
                 case "ADMIN":
                     Administrador b=(Administrador)a;
-                    writer.write(b.cedula + "," + b.contrasena + "," + b.nombre + "," + b.getCargo() + "," + "ADMIN");
+                    writer.write(b.cedula + "," + b.contrasena + "," + b.nombre + "," + b.getCargo() + ",0.0" + "ADMIN");
                     break;
                 case "COMENSAL":
                     Comensal c=(Comensal)a;
@@ -120,5 +124,58 @@ public class fileStrategy implements AStrategy {
         return false;
     }
         return false;
+    }
+    
+    public boolean verificarFotoContraTodos(String rutaFotoAComparar) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(COMENSALES_DB))) {
+        String linea;
+        while ((linea = reader.readLine()) != null) {
+            String[] datos = linea.split(",");
+            if (datos.length >= 3) { // Asumiendo que el tercer campo es la ruta de la foto
+                String rutaFotoRegistrada = datos[2].trim();
+                if (compararImagenes(rutaFotoRegistrada, rutaFotoAComparar)) {
+                    return true;
+                }
+            }
+        }
+    } catch (IOException e) {
+        System.err.println("Error al leer archivo de comensales: " + e.getMessage());
+    }
+    return false;
+}
+    
+        private boolean compararImagenes(String rutaImagen1, String rutaImagen2) {
+        try {
+            File f1 = new File(rutaImagen1);
+            File f2 = new File(rutaImagen2);
+
+            // Si los archivos no existen o tienen diferente tamaño, no pueden ser iguales.
+            if (!f1.exists() || !f2.exists() || f1.length() != f2.length()) {
+                return false;
+            }
+
+            // Compara el contenido de los archivos byte a byte.
+            return Arrays.equals(Files.readAllBytes(f1.toPath()), Files.readAllBytes(f2.toPath()));
+
+        } catch (IOException e) {
+            System.err.println("Error al comparar las imágenes: " + e.getMessage());
+            return false;
+        }
+    }
+    private List<String> getAllFotoPaths() {
+        List<String> paths = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(COMENSALES_DB))) {
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                String[] datos = linea.split(",");
+                // Asumiendo formato: nombre,cedula,rutaFoto
+                if (datos.length == 3 && !datos[2].trim().isEmpty()) {
+                    paths.add(datos[2].trim());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error al leer el archivo de comensales: " + e.getMessage());
+        }
+        return paths;
     }
 }

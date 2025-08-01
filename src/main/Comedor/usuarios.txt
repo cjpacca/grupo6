@@ -1,8 +1,4 @@
 
-<<<<<<< HEAD
 
 31752534,cjpacca7,Carlos Paccagnella,Estudiante,0.0,COMENSAL
-=======
-31752534,cjpacca,arlos,dsfas,COMENSAL
-1,carlos,carlos,carlos,ADMIN
->>>>>>> temporal
+11044327,hola1,Jesus Manuel,Gerente,0.0,ADMIN

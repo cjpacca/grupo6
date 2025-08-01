@@ -16,10 +16,6 @@ public class costos_vista extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-<<<<<<< HEAD
-=======
-        // Panel principal con layout null y color de fondo
->>>>>>> temporal
         JPanel fondoPanel = new JPanel(null);
         fondoPanel.setBackground(Color.DARK_GRAY);
         fondoPanel.setBounds(0, 0, 700, 400);
