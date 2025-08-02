@@ -1,12 +1,16 @@
 package Controlador;
 
-import Modelo.*;
-import Vista.*;
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
+import java.io.File;
 
-import java.io.*;
-import javax.swing.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import Modelo.GestorArchivos;
+import Modelo.fileStrategy;
+import Vista.Inicial;
+import Vista.Login;
+import Vista.Registro;
 
 class ControlTest {
 
@@ -68,6 +72,7 @@ class ControlTest {
         // Assert:
         assertFalse(control.procesarRegistro());
     }
+
     @Test
     void Cedula_Registrada(){
                 // Arrange:
@@ -80,6 +85,7 @@ class ControlTest {
         // Assert:
         assertFalse(control.procesarRegistro());
     }
+
     @Test
     void procesarLogin_conDatosIncorrectos_muestraErrorYRegresaAVistaPrincipal() {
         // Arrange:
@@ -91,6 +97,4 @@ class ControlTest {
         // Assert:
         assertFalse(control.procesarLogin());
     }
-
-
 }
