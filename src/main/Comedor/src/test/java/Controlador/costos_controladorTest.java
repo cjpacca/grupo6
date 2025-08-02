@@ -10,7 +10,6 @@ import Modelo.costos_modelo;
 import Vista.costos_vista;
 
 class costos_controladorTest {
-
     private costos_modelo model;
     private costos_vista view;
     private costos_controlador controlador;
