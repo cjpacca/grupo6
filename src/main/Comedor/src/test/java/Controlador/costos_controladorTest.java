@@ -1,9 +1,13 @@
 package Controlador;
 
-import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.*;
-import Modelo.*;
-import Vista.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import Modelo.costos_modelo;
+import Vista.costos_vista;
 
 class costos_controladorTest {
 
@@ -41,4 +45,19 @@ class costos_controladorTest {
         assertFalse(controlador.guardarCostos());
         assertFalse(controlador.guardarCostos());
     }
+
+    //verificar que el controlador de costos maneje correctamente valores decimales y actualice el modelo (costos_modelo)
+    @Test
+    void guardarCostos_valoresDecimales_actualizaModelo() {
+    // 1. Arrange (Preparación)
+    view.txtCostosFijos.setText("150.75");    // Input con decimales
+    view.txtCostosVariables.setText("89.50"); // Input con decimales
+    
+    // 2. Act (Ejecución)
+    controlador.guardarCostos(); // Llama al método bajo prueba
+    
+    // 3. Assert (Verificación)
+    assertEquals(150.75, model.getCostosFijos(), 0.01);  // Verifica con margen de error ±0.01
+    assertEquals(89.50, model.getCostosVariables(), 0.01);
+}
 }
