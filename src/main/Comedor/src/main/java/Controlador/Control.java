@@ -20,11 +20,13 @@ public class Control implements ActionListener {
     Usuario a;
     Administrador b;
     Comensal c;
+    public MostrarMenuControl mostrarMenuControl;
 
     public Control(GestorArchivos modelo, Inicial vistaPrincipal) {
         this.modelo = modelo;
         this.vistaPrincipal = vistaPrincipal;
         this.vistaPrincipal.setControlador(this);
+        this.mostrarMenuControl = new MostrarMenuControl();
     }
 
     public void iniciar() {
@@ -115,62 +117,54 @@ public class Control implements ActionListener {
 
 
     public boolean procesarLogin() {
-    String cedula = vistaLogin.txtCedula.getText();
-    String password = new String(vistaLogin.txtPassword.getPassword());
+        String cedula = vistaLogin.txtCedula.getText();
+        String password = new String(vistaLogin.txtPassword.getPassword());
 
-    // **Validación de campos de Login**
-    if (!validarCedula(cedula)) {
-        JOptionPane.showMessageDialog(vistaLogin, "Formato de cédula incorrecto.\nDebe tener entre 5 y 8 dígitos numéricos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
-        return false;
-    }
-    if (password.isEmpty()) {
-         JOptionPane.showMessageDialog(vistaLogin, "El campo contraseña no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
-         return false;
-    }
+        // **Validación de campos de Login**
+        if (!validarCedula(cedula)) {
+            JOptionPane.showMessageDialog(vistaLogin, "Formato de cédula incorrecto.\nDebe tener entre 5 y 8 dígitos numéricos.", "Error de Formato", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(vistaLogin, "El campo contraseña no puede estar vacío.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
-    a = modelo.validarLogin(cedula, password);
-    int tipo = 0;
+        a = modelo.validarLogin(cedula, password);
+        int tipo = 0;
 
-    // ✅ INICIO DE LA CORRECCIÓN
-    if (a instanceof Administrador) {
-        b = (Administrador) a;
-        
-        // 1. Crear la vista del menú de administrador
-        AdminMenuView adminView = new AdminMenuView();
-        
-        // 2. Crear su controlador específico y pasarle la vista y el modelo
-        // Esto es CLAVE. ControlAdmin se encargará de los botones de esa vista.
-        ControlAdmin adminController = new ControlAdmin(adminView, modelo);
-        
-        // 3. Hacer visible la vista
-        adminView.setVisible(true);
-        
-        vistaLogin.dispose();
-        return true;
-    // ✅ FIN DE LA CORRECCIÓN
-
-    } else if (a instanceof Comensal) {
-        c = (Comensal) a;
-        tipo = 2;
-    } else {
-        tipo = 3;
-    }
-
-    // El resto del switch maneja los otros casos (comensal y error)
-    switch (tipo) {
-        case 2:
-            vistaComensal comen = new vistaComensal(c, this);
-            comen.setVisible(true);
+        // ✅ INICIO DE LA CORRECCIÓN
+        if (a instanceof Administrador) {
+            b = (Administrador) a;
+            AdminMenuView adminView = new AdminMenuView();
+            ControlAdmin adminController = new ControlAdmin(adminView, modelo);
+            adminView.setVisible(true);
             vistaLogin.dispose();
             return true;
-        case 3:
-            JOptionPane.showMessageDialog(vistaLogin, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
-            vistaLogin.dispose();
-            vistaPrincipal.setVisible(true);
-            return false;
+        // ✅ FIN DE LA CORRECCIÓN
+        } else if (a instanceof Comensal) {
+            c = (Comensal) a;
+            // Guardar el tipo de comensal en MostrarMenuControl
+            mostrarMenuControl.setTipoComensal(c);
+            tipo = 2;
+        } else {
+            tipo = 3;
+        }
+
+        switch (tipo) {
+            case 2:
+                vistaComensal comen = new vistaComensal(c, this);
+                comen.setVisible(true);
+                vistaLogin.dispose();
+                return true;
+            case 3:
+                JOptionPane.showMessageDialog(vistaLogin, "Datos incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+                vistaLogin.dispose();
+                vistaPrincipal.setVisible(true);
+                return false;
+        }
+        return false;
     }
-    return false;
-}
 
     public boolean procesarRegistro() {
         String nombre = vistaRegistro.txtNombre.getText();

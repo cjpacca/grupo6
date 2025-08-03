@@ -5,3 +5,6 @@
 11044327,hola1,Jesus Manuel,Gerente,0.0,ADMIN
 10337830,mario0,mario perez,mario,0.0,ADMIN
 >>>>>>> temporal
+31871275,Aaroncome1,Aaron Contreras,Estudiante,0.0,COMENSAL
+22222,hola1,Carlos Blanco,Profesor,0.0,COMENSAL
+33333,hola1,Elena Rodriguez,Empleado,0.0,COMENSAL
