@@ -12,6 +12,7 @@ public class ControlAdmin implements ActionListener {
     private AdminMenuView adminMenuView;
     private AgregarMenuVista vistaAgregar;
     private ModificarMenuVista vistaModificar;
+    private EliminarMenuVista vistaEliminar;
     private final GestorArchivos modelo;
     private boolean procesandoReconocimiento = false;
 
@@ -26,6 +27,7 @@ public class ControlAdmin implements ActionListener {
         this.adminMenuView.btnReconocimiento.addActionListener(this);
         this.adminMenuView.btnModificarMenu.addActionListener(this);
         this.adminMenuView.btnCerrarSesion.addActionListener(this);
+        this.adminMenuView.btnEliminarMenu.addActionListener(this);
     }
     
     @Override
@@ -47,8 +49,8 @@ public void actionPerformed(ActionEvent e) {
             break;
 
         case "EliminarMenu":
-            JOptionPane.showMessageDialog(adminMenuView, "Funcionalidad 'Eliminar Menú' no implementada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            break;
+            abrirVentanaEliminar();
+             break;
         case "Cerrar sesion":
             cerrarSesion();
             break;
@@ -64,6 +66,24 @@ private void cerrarSesion() {
     Inicial vistaInicial = new Inicial();
     Control controlInicial = new Control(modelo, vistaInicial);
     controlInicial.iniciar();  // Mostrar la ventana inicial
+}
+
+private void abrirVentanaEliminar() {
+    if (vistaEliminar == null || !vistaEliminar.isVisible()) {
+        vistaEliminar = new EliminarMenuVista();
+        vistaEliminar.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                if (adminMenuView != null) {  // ← Verificar nulidad
+                    adminMenuView.setVisible(true);
+                }
+                vistaEliminar = null;
+            }
+        });
+        if (adminMenuView != null) {  // ← Verificar nulidad
+            adminMenuView.setVisible(false);
+        }
+    }
 }
 
 private void abrirVentanaModificar() {
@@ -240,3 +260,4 @@ private void abrirVentanaModificar() {
         }
     }
 }
+
