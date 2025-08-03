@@ -10,6 +10,7 @@ public class AdminMenuView extends JFrame {
     public JButton btnModificarMenu;
     public JButton btnEliminarMenu;
     public JButton btnReconocimiento;
+    public JButton btnCerrarSesion;
 
     public AdminMenuView() {
         // --- Configuración de la ventana ---
@@ -34,21 +35,24 @@ public class AdminMenuView extends JFrame {
         btnModificarMenu = new JButton("Modificar menú");
         btnEliminarMenu = new JButton("Eliminar menú");
         btnReconocimiento = new JButton("Reconocimiento facial");
+        btnCerrarSesion = new JButton("Cerrar Sesión");
         btnAgregarMenu.setActionCommand("AgregarMenu");
-        
-        btnModificarMenu.setActionCommand("ModificarMenu");
         btnEliminarMenu.setActionCommand("EliminarMenu");
         btnReconocimiento.setActionCommand("ReconocimientoFacial");
+        btnModificarMenu.setActionCommand("ModificarMenu");
+        btnCerrarSesion.setActionCommand("Cerrar sesion");
 
         estilizarBoton(btnAgregarMenu);
         estilizarBoton(btnModificarMenu);
         estilizarBoton(btnEliminarMenu);
         estilizarBoton(btnReconocimiento);
+        estilizarBoton(btnCerrarSesion);
 
         panelBotones.add(btnAgregarMenu);
         panelBotones.add(btnModificarMenu);
         panelBotones.add(btnEliminarMenu);
         panelBotones.add(btnReconocimiento);
+        panelBotones.add(btnCerrarSesion);
 
         add(panelBotones, BorderLayout.CENTER);
 
@@ -75,5 +79,6 @@ public class AdminMenuView extends JFrame {
         btnModificarMenu.addActionListener(controlador);
         btnEliminarMenu.addActionListener(controlador);
         btnReconocimiento.addActionListener(controlador);
+        btnCerrarSesion.addActionListener(controlador);
     }
 }

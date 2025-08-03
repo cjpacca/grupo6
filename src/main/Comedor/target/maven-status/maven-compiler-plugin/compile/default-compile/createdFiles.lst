@@ -11,11 +11,13 @@ Vista\Inicial.class
 Vista\vistaMenu$2.class
 Controlador\ControlAdmin$2.class
 Controlador\costos_controlador$1.class
+Vista\ModificarMenuVista.class
 Modelo\Comensal.class
 Vista\vistaComensal.class
 Modelo\fileStrategy.class
 Vista\vistaMenu.class
 Controlador\ControlAdmin.class
+Controlador\ControlModificarMenu.class
 Modelo\Usuario.class
 Modelo\MenuModelo.class
 Vista\costos_vista.class
@@ -23,3 +25,4 @@ Controlador\ControlAdmin$1.class
 Modelo\costos_modelo.class
 Controlador\costos_controlador.class
 Modelo\AStrategy.class
+Controlador\ControlAdmin$3.class

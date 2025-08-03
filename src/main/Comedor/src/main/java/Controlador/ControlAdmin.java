@@ -1,8 +1,8 @@
 package Controlador;
 
 import Modelo.*;
-import Vista.AgregarMenuVista;
-import Vista.AdminMenuView;
+import Vista.*;
+import java.awt.Component;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,6 +11,7 @@ import java.io.File;
 public class ControlAdmin implements ActionListener {
     private AdminMenuView adminMenuView;
     private AgregarMenuVista vistaAgregar;
+    private ModificarMenuVista vistaModificar;
     private final GestorArchivos modelo;
     private boolean procesandoReconocimiento = false;
 
@@ -23,8 +24,10 @@ public class ControlAdmin implements ActionListener {
         // Agregar listeners una sola vez
         this.adminMenuView.btnAgregarMenu.addActionListener(this);
         this.adminMenuView.btnReconocimiento.addActionListener(this);
+        this.adminMenuView.btnModificarMenu.addActionListener(this);
+        this.adminMenuView.btnCerrarSesion.addActionListener(this);
     }
-
+    
     @Override
 public void actionPerformed(ActionEvent e) {
     // Obtenemos el comando de acción en lugar de la fuente del evento
@@ -36,19 +39,48 @@ public void actionPerformed(ActionEvent e) {
                 abrirVentanaAgregar();
             }
             break;
-        
         case "ReconocimientoFacial":
             procesarComparacionFoto();
             break;
-        
-        // Aquí podrías añadir los casos para "ModificarMenu" y "EliminarMenu" en el futuro
         case "ModificarMenu":
-            JOptionPane.showMessageDialog(adminMenuView, "Funcionalidad 'Modificar Menú' no implementada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+             abrirVentanaModificar();
             break;
 
         case "EliminarMenu":
             JOptionPane.showMessageDialog(adminMenuView, "Funcionalidad 'Eliminar Menú' no implementada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             break;
+        case "Cerrar sesion":
+            cerrarSesion();
+            break;
+    }
+}
+
+private void cerrarSesion() {
+    // 1. Cerrar la ventana actual (AdminMenuView)
+    if (adminMenuView != null) {
+        adminMenuView.dispose();
+    }
+    // 2. Abrir la ventana inicial (Inicial)
+    Inicial vistaInicial = new Inicial();
+    Control controlInicial = new Control(modelo, vistaInicial);
+    controlInicial.iniciar();  // Mostrar la ventana inicial
+}
+
+private void abrirVentanaModificar() {
+    if (vistaModificar == null || !vistaModificar.isVisible()) {
+        vistaModificar = new ModificarMenuVista();
+        vistaModificar.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                if (adminMenuView != null) {  // ← Verificar nulidad
+                    adminMenuView.setVisible(true);
+                }
+                vistaModificar = null;
+            }
+        });
+        if (adminMenuView != null) {  // ← Verificar nulidad
+            adminMenuView.setVisible(false);
+        }
     }
 }
         
