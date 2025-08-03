@@ -10,7 +10,7 @@ public class AgregarMenuVista extends JFrame {
     public JTextField txtNumeroBandejas;
     public JTextField txtMerma;
     public JComboBox<String> comboTurno;
-    public JComboBox<Integer> comboNumeroMenu;
+    public JComboBox<String> combodia;
     public JButton btnGuardar;
 
     public AgregarMenuVista() {
@@ -46,9 +46,9 @@ public class AgregarMenuVista extends JFrame {
         comboTurno = new JComboBox<>(new String[] {"Mañana", "Tarde"});
         panel.add(comboTurno);
 
-        panel.add(new JLabel("Número de menú:"));
-        comboNumeroMenu = new JComboBox<>(new Integer[] {1, 2});
-        panel.add(comboNumeroMenu);
+        panel.add(new JLabel("Dia de la semana:"));
+        combodia = new JComboBox<>(new String[] {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes"});
+        panel.add(combodia);
 
         btnGuardar = new JButton("Guardar");
         panel.add(new JLabel()); // Espacio vacío

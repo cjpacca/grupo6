@@ -59,11 +59,25 @@ public class ControlModificarMenu implements ActionListener {
                 }
                 break;
             case "Número de bandejas":
-            case "Número de menú":
                 try {
                     Integer.parseInt(nuevoValor);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(vista, "Debes ingresar un número entero para '" + campo + "'.", "Error de tipo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                break;
+            case "Dia de la semana":
+                String dia = nuevoValor.trim();
+                String[] diasValidos = {"Lunes", "Martes", "Miercoles", "Miércoles", "Jueves", "Viernes"};
+                boolean valido = false;
+                for (String d : diasValidos) {
+                    if (dia.equals(d)) {
+                        valido = true;
+                        break;
+                    }
+                }
+                if (!valido) {
+                    JOptionPane.showMessageDialog(vista, "Debes ingresar el día con la primera letra en mayúscula entre Lunes y Viernes", "Error de tipo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 break;
@@ -101,7 +115,7 @@ public class ControlModificarMenu implements ActionListener {
                         case "Turno":
                             partes[5] = " " + nuevoValor;
                             break;
-                        case "Número de menú":
+                        case "Dia de la semana":
                             partes[6] = " " + nuevoValor;
                             break;
                     }

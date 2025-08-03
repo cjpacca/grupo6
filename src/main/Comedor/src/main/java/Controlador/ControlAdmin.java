@@ -157,7 +157,7 @@ private void abrirVentanaModificar() {
 
     private void guardarMenu(AgregarMenuVista vista) { // Recibir la vista como parámetro
         String turno = (String) vista.comboTurno.getSelectedItem();
-        int numeroMenu = (Integer) vista.comboNumeroMenu.getSelectedItem();
+        String dia = (String) vista.combodia.getSelectedItem();
         String nombre = vista.txtNombre.getText().trim();
         String costoFijoStr = vista.txtCostoFijo.getText().trim();
         String costoVariableStr = vista.txtCostoVariable.getText().trim();
@@ -237,16 +237,16 @@ private void abrirVentanaModificar() {
         menu.setNumeroBandejas(numeroBandejas);
         menu.setMerma(merma);
         menu.setTurno(turno);
-        menu.setNumeroMenu(numeroMenu);
+        menu.setDia(dia);
         menu.setCCB(ccb);
         menu.setPrecioEstudiante(precioEstudiante);
         menu.setPrecioProfesor(precioProfesor);
         menu.setPrecioExterno(precioEmpleado);
 
         // Guardar en archivo Menus.txt
-        String linea = String.format("%s, %.2f, %.2f, %.2f, %.2f, %s, %d, %.2f, %.2f, %d, %.2f\n",
+        String linea = String.format("%s, %.2f, %.2f, %.2f, %.2f, %s, %s, %.2f, %.2f, %d, %.2f\n",
             menu.getNombre(), menu.getCCB(), menu.getPrecioEstudiante(), menu.getPrecioProfesor(), menu.getPrecioExterno(),
-            menu.getTurno(), menu.getNumeroMenu(), menu.getCostoFijo(), menu.getCostoVariable(), menu.getNumeroBandejas(), menu.getMerma());
+            menu.getTurno(), menu.getDia(), menu.getCostoFijo(), menu.getCostoVariable(), menu.getNumeroBandejas(), menu.getMerma());
         try {
             java.nio.file.Files.write(
                 java.nio.file.Paths.get("Menus.txt"),

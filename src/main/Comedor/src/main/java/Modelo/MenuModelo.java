@@ -4,7 +4,7 @@ public class MenuModelo {
     private String nombre;
     private double CCB;
     private String turno;
-    private int numeroMenu;
+    private String dia;
     private double precioEstudiante;
     private double precioProfesor;
     private double precioExterno;
@@ -16,7 +16,7 @@ public class MenuModelo {
     public MenuModelo() {}
 
     public MenuModelo(String nombre, double precioEstudiante, double precioProfesor, double precioExterno,
-                    double costoFijo, double costoVariable, int numeroBandejas, double merma, String turno, int numeroMenu, double CCB) {
+                    double costoFijo, double costoVariable, int numeroBandejas, double merma, String turno, String dia, double CCB) {
         this.nombre = nombre;
         this.precioEstudiante = precioEstudiante;
         this.precioProfesor = precioProfesor;
@@ -26,7 +26,7 @@ public class MenuModelo {
         this.numeroBandejas = numeroBandejas;
         this.merma = merma;
         this.turno = turno;
-        this.numeroMenu = numeroMenu;
+        this.dia = dia;
         this.CCB = CCB;
     }
     public double getCCB() {
@@ -41,11 +41,11 @@ public class MenuModelo {
     public void setTurno(String turno) {
         this.turno = turno;
     }
-    public int getNumeroMenu() {
-        return numeroMenu;
+    public String getDia() {
+        return dia;
     }
-    public void setNumeroMenu(int numeroMenu) {
-        this.numeroMenu = numeroMenu;
+    public void setDia(String dia) {
+        this.dia = dia;
     }
 
     public String getNombre() {

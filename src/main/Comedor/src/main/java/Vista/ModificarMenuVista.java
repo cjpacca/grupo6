@@ -63,7 +63,7 @@ public class ModificarMenuVista extends JFrame {
         panelDerecho.add(lblModificar);
 
         comboModificar = new JComboBox<>(new String[] {
-            "Costo Fijo", "Costo Variable", "Número de bandejas", "%merma", "Turno", "Número de menú"
+            "Costo Fijo", "Costo Variable", "Número de bandejas", "%merma", "Turno", "Dia de la semana"
         });
         comboModificar.setBounds(10, 95, 200, 25);
         panelDerecho.add(comboModificar);
