@@ -55,7 +55,6 @@ class CompararFotosTest {
     // Prueba 1: Cuando las fotos son iguales
     @Test
     void fotosIguales_devuelveTrue() {
-        // Ejecutar el método a probar
         boolean resultado = strategy.compararImagenes(
             fotoOriginal.getAbsolutePath(), 
             fotoCopia.getAbsolutePath()
@@ -68,7 +67,6 @@ class CompararFotosTest {
     // Prueba 2: Cuando las fotos son diferentes
     @Test
     void fotosDiferentes_devuelveFalse() {
-        // Ejecutar el método a probar
         boolean resultado = strategy.compararImagenes(
             fotoOriginal.getAbsolutePath(), 
             fotoDiferente.getAbsolutePath()
@@ -81,7 +79,6 @@ class CompararFotosTest {
     // Prueba 3: Cuando una foto no existe
     @Test
     void fotoInexistente_devuelveFalse() {
-        // Ejecutar con una ruta que no existe
         boolean resultado = strategy.compararImagenes(
             "ruta/falsa/noexiste.jpg", 
             fotoOriginal.getAbsolutePath()
