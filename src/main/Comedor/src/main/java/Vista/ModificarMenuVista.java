@@ -12,6 +12,7 @@ public class ModificarMenuVista extends JFrame {
     public JComboBox<String> comboModificar;
     public JTextField txtNuevoValor;
     public JButton btnGuardar;
+    public JButton btnSalir;
 
     public ModificarMenuVista() {
         setTitle("Modificar Menú");
@@ -78,6 +79,9 @@ public class ModificarMenuVista extends JFrame {
         btnGuardar = new JButton("Guardar");
         btnGuardar.setBounds(50, 220, 120, 35); // Ubicación exacta abajo a la derecha
         panelDerecho.add(btnGuardar);
+        btnSalir = new JButton("Salir");
+        btnSalir.setBounds(180, 220, 120, 35);  // Posición junto a "Guardar"
+        panelDerecho.add(btnSalir);
 
         panelPrincipal.add(panelDerecho, BorderLayout.CENTER);
 

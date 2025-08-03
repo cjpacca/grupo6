@@ -1,39 +1,161 @@
 package Controlador;
 
-import Modelo.MenuModelo;
-import Vista.AgregarMenuVista;
-
+import Modelo.*;
+import Vista.*;
+import java.awt.Component;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import Vista.AdminMenuView;
+import java.io.File;
 
 public class ControlAdmin implements ActionListener {
-    private AgregarMenuVista vista;
     private AdminMenuView adminMenuView;
+    private AgregarMenuVista vistaAgregar;
+    private ModificarMenuVista vistaModificar;
+    private final GestorArchivos modelo;
+    private boolean procesandoReconocimiento = false;
 
-    public ControlAdmin(AdminMenuView adminMenuView) {
+    // Calcula el CCB (Costo de la comida por bandeja)
+    private double calcularCCB(double costoFijo, double costoVariable, int numeroBandejas, double merma) {
+        return ((costoFijo + costoVariable) / numeroBandejas) * (1 + merma);
+    }
+
+    // Calcula el precio para estudiante
+    private double calcularPrecioEstudiante(double ccb) {
+        return ccb * 0.25;
+    }
+
+    // Calcula el precio para profesor
+    private double calcularPrecioProfesor(double ccb) {
+        return ccb * 0.80;
+    }
+
+    // Calcula el precio para empleado
+    private double calcularPrecioEmpleado(double ccb) {
+        return ccb * 0.90;
+    }
+
+    public ControlAdmin(AdminMenuView adminMenuView, GestorArchivos modelo) {
+        this.modelo = modelo;
         this.adminMenuView = adminMenuView;
-        this.adminMenuView.btnAgregarMenu.addActionListener(e -> {
-            new AgregarMenuVista();
-        });
+        
+        // Remover listeners existentes primero para evitar duplicados
+        
+        // Agregar listeners una sola vez
+        this.adminMenuView.btnAgregarMenu.addActionListener(this);
+        this.adminMenuView.btnReconocimiento.addActionListener(this);
+        this.adminMenuView.btnModificarMenu.addActionListener(this);
+        this.adminMenuView.btnCerrarSesion.addActionListener(this);
     }
-
-    // Constructor para AgregarMenuVista (para compatibilidad)
-    public ControlAdmin(AgregarMenuVista vista) {
-        this.vista = vista;
-        this.vista.btnGuardar.addActionListener(this);
-    }
-
+    
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == vista.btnGuardar) {
-            guardarMenu();
+public void actionPerformed(ActionEvent e) {
+    // Obtenemos el comando de acción en lugar de la fuente del evento
+    String command = e.getActionCommand();
+
+    switch (command) {
+        case "AgregarMenu":
+            if (vistaAgregar == null || !vistaAgregar.isVisible()) {
+                abrirVentanaAgregar();
+            }
+            break;
+        case "ReconocimientoFacial":
+            procesarComparacionFoto();
+            break;
+        case "ModificarMenu":
+            abrirVentanaModificar();
+            break;
+
+        case "EliminarMenu":
+            JOptionPane.showMessageDialog(adminMenuView, "Funcionalidad 'Eliminar Menú' no implementada.", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            break;
+        case "Cerrar sesion":
+            cerrarSesion();
+            break;
+    }
+}
+
+private void cerrarSesion() {
+    // 1. Cerrar la ventana actual (AdminMenuView)
+    if (adminMenuView != null) {
+        adminMenuView.dispose();
+    }
+    // 2. Abrir la ventana inicial (Inicial)
+    Inicial vistaInicial = new Inicial();
+    Control controlInicial = new Control(modelo, vistaInicial);
+    controlInicial.iniciar();  // Mostrar la ventana inicial
+}
+
+private void abrirVentanaModificar() {
+    if (vistaModificar == null || !vistaModificar.isVisible()) {
+        vistaModificar = new ModificarMenuVista();
+        vistaModificar.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                if (adminMenuView != null) {  // ← Verificar nulidad
+                    adminMenuView.setVisible(true);
+                }
+                vistaModificar = null;
+            }
+        });
+        if (adminMenuView != null) {  // ← Verificar nulidad
+            adminMenuView.setVisible(false);
+        }
+    }
+}
+        
+    private void procesarComparacionFoto() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Seleccione la foto a verificar");
+        int resultado = fileChooser.showOpenDialog(adminMenuView);
+
+        if (resultado == JFileChooser.APPROVE_OPTION) {
+            File fotoSeleccionada = fileChooser.getSelectedFile();
+            String rutaFotoAComparar = fotoSeleccionada.getAbsolutePath();
+
+            // Llamamos al NUEVO método del modelo que no requiere cédula
+            Comensal aux= modelo.verificarFotoContraTodos(rutaFotoAComparar);
+
+            if (aux!=null) {
+                // Lógica para cuando la comparación es exitosa
+                JOptionPane.showMessageDialog(adminMenuView, "¡Verificación Exitosa! La foto coincide con un comensal registrado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                
+            } else {
+                // Mensaje cuando no hay coincidencias
+                JOptionPane.showMessageDialog(adminMenuView, "La foto no coincide con ningún comensal en la base de datos.", "Verificación Fallida", JOptionPane.ERROR_MESSAGE);
+                
+            }
         }
     }
 
-    private void guardarMenu() {
+    private void abrirVentanaAgregar() {
+        if (vistaAgregar != null && vistaAgregar.isVisible()) {
+            return; // Ya hay una ventana abierta
+        }
+        
+        vistaAgregar = new AgregarMenuVista();
+        vistaAgregar.btnGuardar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                guardarMenu(vistaAgregar);
+                vistaAgregar.dispose();
+                vistaAgregar = null; // Liberar referencia
+                adminMenuView.setVisible(true);
+            }
+        });
+        
+        vistaAgregar.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent windowEvent) {
+                vistaAgregar = null; // Liberar referencia al cerrar
+                adminMenuView.setVisible(true);
+            }
+        });
+        
+        adminMenuView.setVisible(false);
+    }
+
+    private void guardarMenu(AgregarMenuVista vista) { // Recibir la vista como parámetro
         String turno = (String) vista.comboTurno.getSelectedItem();
         int numeroMenu = (Integer) vista.comboNumeroMenu.getSelectedItem();
         String nombre = vista.txtNombre.getText().trim();
@@ -42,7 +164,8 @@ public class ControlAdmin implements ActionListener {
         String numeroBandejasStr = vista.txtNumeroBandejas.getText().trim();
         String mermaStr = vista.txtMerma.getText().trim();
 
-        // Verificar si el nombre ya existe en Menus.txt
+        // Resto del código de guardarMenu() permanece igual...
+        // Verificación de nombre existente
         java.nio.file.Path path = java.nio.file.Paths.get("Menus.txt");
         if (java.nio.file.Files.exists(path)) {
             try {
@@ -58,6 +181,13 @@ public class ControlAdmin implements ActionListener {
                 JOptionPane.showMessageDialog(vista, "Error al leer Menus.txt: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+        }
+
+        // Validar campos vacíos
+        if (nombre.isEmpty() || costoFijoStr.isEmpty() || costoVariableStr.isEmpty() ||
+            numeroBandejasStr.isEmpty() || mermaStr.isEmpty()) {
+            JOptionPane.showMessageDialog(vista, "Por favor, rellena todos los campos.", "Campos incompletos", JOptionPane.WARNING_MESSAGE);
+            return;
         }
 
         // Validar campos vacíos
@@ -94,10 +224,10 @@ public class ControlAdmin implements ActionListener {
             return;
         }
 
-        double ccb = ((costoFijo + costoVariable) / numeroBandejas) * (1 + merma);
-        double precioEstudiante = ccb * 0.25;
-        double precioProfesor = ccb * 0.80;
-        double precioEmpleado = ccb * 0.90;
+        double ccb = calcularCCB(costoFijo, costoVariable, numeroBandejas, merma);
+        double precioEstudiante = calcularPrecioEstudiante(ccb);
+        double precioProfesor = calcularPrecioProfesor(ccb);
+        double precioEmpleado = calcularPrecioEmpleado(ccb);
         // Si todo es correcto, crear el modelo y mostrar mensaje de éxito
 
         MenuModelo menu = new MenuModelo();

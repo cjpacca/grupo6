@@ -15,6 +15,7 @@ public class ControlModificarMenu implements ActionListener {
     public ControlModificarMenu(ModificarMenuVista vista) {
         this.vista = vista;
         this.vista.btnGuardar.addActionListener(this);
+        this.vista.btnSalir.addActionListener(this);
         this.vista.listaMenus.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 String seleccionado = vista.listaMenus.getSelectedValue();
@@ -29,7 +30,9 @@ public class ControlModificarMenu implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == vista.btnGuardar) {
-            modificarMenu();
+        modificarMenu();
+        } else if (e.getSource() == vista.btnSalir) {
+        vista.dispose();  // Cierra la ventana actual
         }
     }
 
@@ -51,7 +54,7 @@ public class ControlModificarMenu implements ActionListener {
                 try {
                     Double.parseDouble(nuevoValor);
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(vista, "Debes ingresar un número decimal para '" + campo + "'.", "Error de tipo", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(vista, "Ingrese un valor valido para '" + campo + "'.", "Error de tipo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 break;
@@ -60,12 +63,16 @@ public class ControlModificarMenu implements ActionListener {
                 try {
                     Integer.parseInt(nuevoValor);
                 } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(vista, "Debes ingresar un número entero para '" + campo + "'.", "Error de tipo", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(vista, "Ingrese un valor valido para '" + campo + "'.", "Error de tipo", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 break;
             case "Turno":
-                // No validar, es texto
+                // Validar que solo se acepte "Mañana" o "Tarde"
+                if (!nuevoValor.equalsIgnoreCase("Mañana") && !nuevoValor.equalsIgnoreCase("Tarde")) {
+                    JOptionPane.showMessageDialog(vista, "Debes ingresar 'Mañana' o 'Tarde'", "Error de tipo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 break;
         }
 
