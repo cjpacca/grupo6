@@ -1,10 +1,10 @@
 <<<<<<< HEAD
-32061879,12345lm,maria medina,Estudiante,4400.0,COMENSAL
+32061879,12345lm,maria medina,Estudiante,4300.0,COMENSAL
 =======
-31752534,cjpacca7,Carlos Paccagnella,Estudiante,5153.0,COMENSAL
+31752534,cjpacca7,Carlos Paccagnella,Estudiante,5157.9,COMENSAL
 11044327,hola1,Jesus Manuel,Gerente,0.0,ADMIN
 10337830,mario0,mario perez,mario,0.0,ADMIN
 >>>>>>> temporal
-31871275,Aaroncome1,Aaron Contreras,Estudiante,1.0E9,COMENSAL
+31871275,Aaroncome1,Aaron Contreras,Estudiante,1.01E9,COMENSAL
 22222,hola1,Carlos Blanco,Profesor,0.0,COMENSAL
 33333,hola1,Elena Rodriguez,Empleado,0.0,COMENSAL

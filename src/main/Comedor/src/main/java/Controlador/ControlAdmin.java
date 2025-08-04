@@ -228,9 +228,10 @@ private void abrirVentanaModificar() {
         }
 
         double ccb = ((costoFijo + costoVariable) / numeroBandejas) * (1 + merma);
-        double precioEstudiante = ccb * 0.25;
-        double precioProfesor = ccb * 0.80;
-        double precioEmpleado = ccb * 0.90;
+        ccb = Math.round(ccb * 100.0) / 100.0;
+        double precioEstudiante = Math.round(ccb * 0.25 * 100.0) / 100.0;
+        double precioProfesor = Math.round(ccb * 0.80 * 100.0) / 100.0;
+        double precioEmpleado = Math.round(ccb * 0.90 * 100.0) / 100.0;
         // Si todo es correcto, crear el modelo y mostrar mensaje de éxito
 
         MenuModelo menu = new MenuModelo();
@@ -247,7 +248,7 @@ private void abrirVentanaModificar() {
         menu.setPrecioExterno(precioEmpleado);
 
         // Guardar en archivo Menus.txt
-      String linea = (menu.getNombre()+","+menu.getCCB()+","+menu.getPrecioEstudiante()+","+menu.getPrecioProfesor()+","+menu.getPrecioExterno()+","+menu.getTurno()+","+menu.getDia()+","+menu.getCostoFijo()+","+menu.getCostoVariable()+","+menu.getNumeroBandejas()+","+menu.getMerma()+System.lineSeparator());
+        String linea = (menu.getNombre()+","+menu.getCCB()+","+menu.getPrecioEstudiante()+","+menu.getPrecioProfesor()+","+menu.getPrecioExterno()+","+menu.getTurno()+","+menu.getDia()+","+menu.getCostoFijo()+","+menu.getCostoVariable()+","+menu.getNumeroBandejas()+","+menu.getMerma()+System.lineSeparator());
         try {
             java.nio.file.Files.write(
                 java.nio.file.Paths.get("Menus.txt"),

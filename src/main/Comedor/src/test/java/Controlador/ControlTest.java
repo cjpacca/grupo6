@@ -32,7 +32,6 @@ class ControlTest {
         assertFalse(file.usuarioYaExiste("7482827356856"));
     }
 
-   
     @Test
     void Registro_Incorrecto_admin(){
         // Arrange:
@@ -57,7 +56,7 @@ class ControlTest {
         // Assert:
         assertFalse(control.procesarRegistro());
     }
-   
+
     @Test
     void procesarLogin_conDatosIncorrectos_muestraErrorYRegresaAVistaPrincipal() {
         // Arrange:
