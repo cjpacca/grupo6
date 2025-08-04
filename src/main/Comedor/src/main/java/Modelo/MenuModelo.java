@@ -96,4 +96,9 @@ public class MenuModelo {
     public void setMerma(double merma) {
         this.merma = merma;
     }
+    //calcular CCB
+    public void calcularCCB() {
+    this.CCB = ((costoFijo + costoVariable) / numeroBandejas) * (1 + merma);
+}    
+
 }
