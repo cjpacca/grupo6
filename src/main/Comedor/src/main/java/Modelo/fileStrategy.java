@@ -1,6 +1,11 @@
 package Modelo;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -163,7 +168,7 @@ public class fileStrategy implements AStrategy {
     return null;
 }
     
-        private boolean compararImagenes(String rutaImagen1, String rutaImagen2) {
+        public boolean compararImagenes(String rutaImagen1, String rutaImagen2) {
         try {
             File f1 = new File(rutaImagen1);
             File f2 = new File(rutaImagen2);
