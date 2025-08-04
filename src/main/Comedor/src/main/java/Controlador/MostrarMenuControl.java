@@ -19,11 +19,6 @@ public class MostrarMenuControl {
             this.tipoComensal = comensal.getType();
         }
     }
-
-    public String getTipoComensal() {
-        return tipoComensal;
-    }
-
     /**
      * Devuelve una lista de menús filtrados por turno y día.
      * @param turno El turno a filtrar (ejemplo: "Mañana" o "Tarde")

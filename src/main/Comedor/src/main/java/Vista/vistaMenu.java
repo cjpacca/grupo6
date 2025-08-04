@@ -68,7 +68,9 @@ public class vistaMenu extends JFrame {
         panelDiasSemana.add(radioMartes);
         panelDiasSemana.add(radioMiercoles);
         panelDiasSemana.add(radioJueves);
-        panelDiasSemana.add(radioViernes);        
+        panelDiasSemana.add(radioViernes);  
+        
+        if(admin!=null){
         JPanel panelBotonPagar = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelBotonPagar.setBackground(colorFondo);
         JButton pagar = new JButton("Pagar");
@@ -93,7 +95,7 @@ public class vistaMenu extends JFrame {
         Comensal comensal = a; // Usamos el comensal pasado al constructor
         float precioSeleccionado = Float.parseFloat(modeloTabla.getValueAt(filaSeleccionada, 1).toString());
         
-        if (comensal.getSaldo() < precioSeleccionado) {
+        if (comensal.getSaldo() < precioSeleccionado || comensal.getSaldo()-price<0.0) {
             JOptionPane.showMessageDialog(vistaMenu.this, 
                 "Saldo insuficiente. Por favor recargue su saldo.", 
                 "Error", JOptionPane.ERROR_MESSAGE);
@@ -109,9 +111,7 @@ public class vistaMenu extends JFrame {
         if (confirmacion == JOptionPane.YES_OPTION) {
             // Realizar el pago
             try {
-                // Actualizar saldo del comensal
-                comensal.setSaldo(comensal.getSaldo() - precioSeleccionado);
-                
+                // Actualizar saldo del comensal                
                 // Registrar la compra
                 String nombreMenu = modeloTabla.getValueAt(filaSeleccionada, 0).toString();
                 String turno = radioManana.isSelected() ? "Mañana" : "Tarde";
@@ -123,9 +123,10 @@ public class vistaMenu extends JFrame {
                 else if (radioViernes.isSelected()) dia = "Viernes";
                 // Actualizar la etiqueta de saldo
                 GestorArchivos gestor = new GestorArchivos();
-                gestor.actualizarSaldo(a.getCedula(), a.getSaldo()-price);
-                dispose();
-                admin.setVisible(true);
+                    gestor.actualizarSaldo(a.getCedula(), a.getSaldo()-price);
+                    dispose();
+                    admin.setVisible(true);
+                
                 //vistaA.setVisible(true);
                 
                 JOptionPane.showMessageDialog(vistaMenu.this, 
@@ -139,6 +140,7 @@ public class vistaMenu extends JFrame {
         }
     }
 });
+        }
 
         JPanel panelControles = new JPanel(new GridLayout(2, 1));
         panelControles.setBackground(colorFondo);
@@ -148,7 +150,7 @@ public class vistaMenu extends JFrame {
 
         JPanel panelSuperiorGeneral = new JPanel(new BorderLayout());
         panelSuperiorGeneral.setBackground(colorFondo);
-        JLabel labelSaldo = new JLabel("Saldo actual: $" + a.getSaldo());
+        JLabel labelSaldo = new JLabel("Saldo actual: " + a.getSaldo()+ "bs");
         labelSaldo.setFont(new Font("SansSerif", Font.BOLD, 16));
         labelSaldo.setBorder(new EmptyBorder(10, 20, 10, 10));
 
