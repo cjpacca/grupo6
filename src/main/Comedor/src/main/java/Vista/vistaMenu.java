@@ -13,8 +13,10 @@ import java.awt.event.ActionListener;
 
 public class vistaMenu extends JFrame {
     private JRadioButton radioManana, radioTarde;
-    private JLabel labelSeleccionTurno;
+    private JLabel labelSeleccionTurno, labelSaldo;
     private ActionListener controlador;
+    private float price;
+    private AdminMenuView vistaA;
     private final Color colorFondo = new Color(230, 230, 230);
     private final Color colorMorado = new Color(128, 0, 128);
     private final Border bordeConPadding = new EmptyBorder(2, 2, 10, 10);
@@ -23,7 +25,7 @@ public class vistaMenu extends JFrame {
     private DefaultTableModel modeloTabla;
     private JScrollPane scrollTabla;
 
-    public vistaMenu(Comensal a, ActionListener controlador) {
+    public vistaMenu(Comensal a, ActionListener controlador, AdminMenuView admin) {
         this.controlador = controlador;
         setTitle("Menú Estudiantil");
         setSize(900, 500);
@@ -66,7 +68,77 @@ public class vistaMenu extends JFrame {
         panelDiasSemana.add(radioMartes);
         panelDiasSemana.add(radioMiercoles);
         panelDiasSemana.add(radioJueves);
-        panelDiasSemana.add(radioViernes);
+        panelDiasSemana.add(radioViernes);        
+        JPanel panelBotonPagar = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelBotonPagar.setBackground(colorFondo);
+        JButton pagar = new JButton("Pagar");
+        pagar.setFont(new Font("SansSerif", Font.BOLD, 18));
+        pagar.setPreferredSize(new Dimension(150, 40));
+        panelBotonPagar.add(pagar);
+        add(panelBotonPagar, BorderLayout.SOUTH);
+        
+        pagar.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        // Verificar si se ha seleccionado un menú
+        int filaSeleccionada = tablaMenus.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(vistaMenu.this, 
+                "Por favor seleccione un menú de la tabla", 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Verificar si hay saldo suficiente
+        Comensal comensal = a; // Usamos el comensal pasado al constructor
+        float precioSeleccionado = Float.parseFloat(modeloTabla.getValueAt(filaSeleccionada, 1).toString());
+        
+        if (comensal.getSaldo() < precioSeleccionado) {
+            JOptionPane.showMessageDialog(vistaMenu.this, 
+                "Saldo insuficiente. Por favor recargue su saldo.", 
+                "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Confirmar la compra
+        int confirmacion = JOptionPane.showConfirmDialog(vistaMenu.this,
+            "¿Confirmar compra del menú por $" + precioSeleccionado + "?",
+            "Confirmar compra",
+            JOptionPane.YES_NO_OPTION);
+        
+        if (confirmacion == JOptionPane.YES_OPTION) {
+            // Realizar el pago
+            try {
+                // Actualizar saldo del comensal
+                comensal.setSaldo(comensal.getSaldo() - precioSeleccionado);
+                
+                // Registrar la compra
+                String nombreMenu = modeloTabla.getValueAt(filaSeleccionada, 0).toString();
+                String turno = radioManana.isSelected() ? "Mañana" : "Tarde";
+                String dia = "";
+                if (radioLunes.isSelected()) dia = "Lunes";
+                else if (radioMartes.isSelected()) dia = "Martes";
+                else if (radioMiercoles.isSelected()) dia = "Miércoles";
+                else if (radioJueves.isSelected()) dia = "Jueves";
+                else if (radioViernes.isSelected()) dia = "Viernes";
+                // Actualizar la etiqueta de saldo
+                GestorArchivos gestor = new GestorArchivos();
+                gestor.actualizarSaldo(a.getCedula(), a.getSaldo()-price);
+                dispose();
+                admin.setVisible(true);
+                //vistaA.setVisible(true);
+                
+                JOptionPane.showMessageDialog(vistaMenu.this, 
+                    "Compra realizada con éxito!", 
+                    "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(vistaMenu.this, 
+                    "Error al procesar el pago: " + ex.getMessage(), 
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+});
 
         JPanel panelControles = new JPanel(new GridLayout(2, 1));
         panelControles.setBackground(colorFondo);
@@ -141,7 +213,7 @@ public class vistaMenu extends JFrame {
                         menuControl = new Controlador.MostrarMenuControl();
                     }
                     java.util.List<String[]> menus = menuControl.obtenerMenusPorTurnoYDia(turno, dia);
-                    String tipoComensal = menuControl.getTipoComensal();
+                    String tipoComensal = a.getType();
                     for (String[] fila : menus) {
                         String[] filaTabla = new String[2];
                         filaTabla[0] = (fila.length > 0) ? fila[0].trim() : "";
@@ -151,12 +223,15 @@ public class vistaMenu extends JFrame {
                             switch (tipoComensal) {
                                 case "Estudiante":
                                     if (fila.length > 2) precio = fila[2].trim();
+                                    price = Float.parseFloat(precio);
                                     break;
                                 case "Profesor":
                                     if (fila.length > 3) precio = fila[3].trim();
+                                    price = Float.parseFloat(precio);
                                     break;
                                 case "Empleado":
                                     if (fila.length > 4) precio = fila[4].trim();
+                                    price = Float.parseFloat(precio);
                                     break;
                             }
                         }

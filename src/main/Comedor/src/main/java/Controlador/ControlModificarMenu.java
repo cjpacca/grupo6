@@ -82,7 +82,10 @@ public class ControlModificarMenu implements ActionListener {
                 }
                 break;
             case "Turno":
-                // No validar, es texto
+                if(!nuevoValor.trim().equals("Mañana") && !nuevoValor.trim().equals("Tarde")){
+                    JOptionPane.showMessageDialog(vista, "Debes ingresar 'Mañana' o 'Tarde'", "Error de tipo", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 break;
         }
 

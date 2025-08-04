@@ -59,7 +59,7 @@ public class vistaComensal extends JFrame {
         add(panelBotones);
 
         btnVerMenu.addActionListener(e -> {
-            vistaMenu panelContenidoMenu = new vistaMenu(a, controlador);
+            vistaMenu panelContenidoMenu = new vistaMenu(a, controlador, null);
             panelContenidoMenu.setVisible(true);
             setVisible(false);
         });

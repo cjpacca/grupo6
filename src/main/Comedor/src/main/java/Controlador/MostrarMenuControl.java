@@ -8,7 +8,7 @@ import java.util.List;
 
 public class MostrarMenuControl {
 
-    private final String rutaMenus = "c:/Users/58414/OneDrive/Documents/TRABAJO/grupo6/Menus.txt";
+    private final String rutaMenus = "Menus.txt";
     private String tipoComensal;
 
     /**

@@ -118,7 +118,10 @@ private void abrirVentanaModificar() {
 
             if (aux!=null) {
                 // Lógica para cuando la comparación es exitosa
-                JOptionPane.showMessageDialog(adminMenuView, "¡Verificación Exitosa! La foto coincide con un comensal registrado.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                // Abrir la vista vistaMenu con el comensal encontrado
+                adminMenuView.setVisible(false);
+                Vista.vistaMenu vistaMenu = new Vista.vistaMenu(aux, null, adminMenuView);
+                vistaMenu.setVisible(true);
                 
             } else {
                 // Mensaje cuando no hay coincidencias
