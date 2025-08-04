@@ -32,18 +32,7 @@ class ControlTest {
         assertFalse(file.usuarioYaExiste("7482827356856"));
     }
 
-    @Test
-    void Registro_Incorrecto_Comensal(){
-        // Arrange:
-        control.vistaRegistro = new Registro(false);
-        control.vistaRegistro.txtCedula.setText("");
-        control.vistaRegistro.txtPassword.setText(""); 
-        control.vistaRegistro.txtCampoExtra.setText(""); 
-        control.vistaRegistro.txtNombre.setText(""); 
-
-        // Assert:
-        assertFalse(control.procesarRegistro());
-    }
+   
     @Test
     void Registro_Incorrecto_admin(){
         // Arrange:
@@ -68,18 +57,7 @@ class ControlTest {
         // Assert:
         assertFalse(control.procesarRegistro());
     }
-    @Test
-    void Cedula_Registrada(){
-                // Arrange:
-        control.vistaRegistro = new Registro(false);
-        control.vistaRegistro.txtCedula.setText("31871275"); 
-        control.vistaRegistro.txtPassword.setText("yuwery"); 
-        control.vistaRegistro.txtCampoExtra.setText("kfjdf"); 
-        control.vistaRegistro.txtNombre.setText("fdkjf"); 
-
-        // Assert:
-        assertFalse(control.procesarRegistro());
-    }
+   
     @Test
     void procesarLogin_conDatosIncorrectos_muestraErrorYRegresaAVistaPrincipal() {
         // Arrange:

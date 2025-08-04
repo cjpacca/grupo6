@@ -247,9 +247,7 @@ private void abrirVentanaModificar() {
         menu.setPrecioExterno(precioEmpleado);
 
         // Guardar en archivo Menus.txt
-        String linea = String.format("%s, %.2f, %.2f, %.2f, %.2f, %s, %s, %.2f, %.2f, %d, %.2f\n",
-            menu.getNombre(), menu.getCCB(), menu.getPrecioEstudiante(), menu.getPrecioProfesor(), menu.getPrecioExterno(),
-            menu.getTurno(), menu.getDia(), menu.getCostoFijo(), menu.getCostoVariable(), menu.getNumeroBandejas(), menu.getMerma());
+      String linea = (menu.getNombre()+","+menu.getCCB()+","+menu.getPrecioEstudiante()+","+menu.getPrecioProfesor()+","+menu.getPrecioExterno()+","+menu.getTurno()+","+menu.getDia()+","+menu.getCostoFijo()+","+menu.getCostoVariable()+","+menu.getNumeroBandejas()+","+menu.getMerma()+System.lineSeparator());
         try {
             java.nio.file.Files.write(
                 java.nio.file.Paths.get("Menus.txt"),
