@@ -169,12 +169,21 @@ public class vistaMenu extends JFrame {
         panelBotonVolver.setBackground(colorFondo); 
         panelBotonVolver.add(botonVolver);
 
-        botonVolver.addActionListener(e -> {
+if(admin!=null){
+            botonVolver.addActionListener(e -> {
+            Window ventanaActual = SwingUtilities.getWindowAncestor(botonVolver);
+            ventanaActual.dispose();
+            admin.setVisible(true);
+            dispose();
+        });
+        }else{
+            botonVolver.addActionListener(e -> {
             Window ventanaActual = SwingUtilities.getWindowAncestor(botonVolver);
             ventanaActual.dispose();
             vistaComensal vista = new vistaComensal(a, this.controlador); 
             vista.setVisible(true);
         });
+        }
 
         JPanel panelNorteCompleto = new JPanel(new BorderLayout());
         panelNorteCompleto.setBackground(colorFondo);
@@ -185,8 +194,13 @@ public class vistaMenu extends JFrame {
         ((JPanel) getContentPane()).setBorder(bordeConPadding);
 
         // --- TABLA DE MENUS SOLO NOMBRE Y PRECIO ---
-        String[] columnas = {"Nombre del Menú", "Precio"};
-        modeloTabla = new DefaultTableModel(columnas, 0);
+        String[] columnas = {"Nombre del Menú", "Precio en Bolivares"};
+        modeloTabla = new DefaultTableModel(columnas, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         tablaMenus = new JTable(modeloTabla);
         tablaMenus.setFillsViewportHeight(true);
         scrollTabla = new JScrollPane(tablaMenus);
